@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Loading Test</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .success { color: green; background: #e7ffe7; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    .error { color: red; background: #ffe7e7; padding: 10px; margin: 10px 0; border-radius: 5px; }
+    .info { color: #333; background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; font-family: monospace; white-space: pre-wrap; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>🚌 Tamil Nadu Tourist Bus Finder - Data Loading Test</h1>
+  
+  <div id="results"></div>
+  
+  <script src="js/data.js"></script>
+  <script>
+    async function runTest() {
+      const results = document.getElementById('results');
+      
+      try {
+        // Test 1: Check if files exist
+        results.innerHTML += '<h2>Test Results</h2>';
+        
+        // Test 2: Load data
+        results.innerHTML += '<p><strong>Loading data...</strong></p>';
+        const data = await loadBusData();
+        
+        if (window.busData && window.busData.length > 0) {
+          results.innerHTML += `<div class="success">✓ SUCCESS: Loaded ${window.busData.length} districts</div>`;
+          results.innerHTML += `<div class="info">Districts:\n${window.busData.map((d, i) => `${i+1}. ${d.name} (${d.buses?.length || 0} buses)`).join('\n')}</div>`;
+          
+          // Test 3: Get all buses
+          const allBuses = getAllBuses();
+          results.innerHTML += `<div class="success">✓ SUCCESS: Retrieved ${allBuses.length} total buses</div>`;
+          
+          if (allBuses.length > 0) {
+            results.innerHTML += `<div class="info">Sample buses:\n${allBuses.slice(0, 5).map(b => `- ${b.operator} (${b.type}, ${b.seats} seats, ₹${b.perDayRent}/day)`).join('\n')}</div>`;
+          }
+        } else {
+          results.innerHTML += '<div class="error">✗ FAILED: No data loaded</div>';
+        }
+      } catch (error) {
+        results.innerHTML += `<div class="error">✗ ERROR: ${error.message}</div>`;
+        results.innerHTML += `<div class="info">Stack:\n${error.stack}</div>`;
+      }
+      
+      results.innerHTML += '<p><a href="index.html">← Back to Main Application</a></p>';
+    }
+    
+    // Run test when page loads
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runTest);
+    } else {
+      runTest();
+    }
+  </script>
+</body>
+</html>

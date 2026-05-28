@@ -1,0 +1,27 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+.env.local
+
+# IDE & Editor
+.vscode
+.idea
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# Node (if used for development)
+node_modules/
+package-lock.json
+
+# OS temp files
+*~
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cache
+.cache/
