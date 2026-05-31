@@ -16,7 +16,9 @@
           "amenities": ["AC", "WiFi", "USB Charging", "Entertainment System"],
           "busImage": "🚌",
           "rating": 4.8,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "CHN002",
@@ -30,7 +32,9 @@
           "amenities": ["AC", "Sleeper Berths", "Blankets", "Reading Lights"],
           "busImage": "🚌",
           "rating": 4.5,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "CHN003",
@@ -44,7 +48,9 @@
           "amenities": ["AC", "Music System"],
           "busImage": "🚐",
           "rating": 4.2,
-          "available": false
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -64,7 +70,9 @@
           "amenities": ["AC", "Push Back Seats", "Entertainment", "GPS"],
           "busImage": "🚌",
           "rating": 4.7,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": true
         },
         {
           "id": "CBE002",
@@ -78,7 +86,9 @@
           "amenities": ["Fan", "Push Back Seats", "Music System"],
           "busImage": "🚌",
           "rating": 4.0,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -98,7 +108,9 @@
           "amenities": ["AC", "Push Back Seats", "Entertainment", "GPS"],
           "busImage": "🚌",
           "rating": 4.7,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": true
         },
         {
           "id": "DPI002",
@@ -112,7 +124,9 @@
           "amenities": ["Fan", "Push Back Seats", "Music System"],
           "busImage": "🚌",
           "rating": 4.0,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": true
         }
       ]
     },
@@ -132,7 +146,9 @@
           "amenities": ["AC", "Recliner Seats", "WiFi", "TV"],
           "busImage": "🚌",
           "rating": 4.6,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "MDU002",
@@ -146,7 +162,9 @@
           "amenities": ["AC", "USB Charging"],
           "busImage": "🚐",
           "rating": 4.3,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "MDU003",
@@ -160,7 +178,9 @@
           "amenities": ["AC", "Sleeper", "Curtains", "Charging Ports"],
           "busImage": "🚌",
           "rating": 4.4,
-          "available": false
+          "available": true,
+          "verified": false,
+          "paid": false
         }
       ]
     },
@@ -180,7 +200,9 @@
           "amenities": ["AC", "Entertainment", "GPS", "Push Back Seats"],
           "busImage": "🚌",
           "rating": 4.5,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "TRY002",
@@ -194,7 +216,9 @@
           "amenities": ["Fan", "Music System", "GPS"],
           "busImage": "🚌",
           "rating": 3.9,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -214,7 +238,9 @@
           "amenities": ["AC", "WiFi", "Entertainment"],
           "busImage": "🚌",
           "rating": 4.4,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "SLM002",
@@ -228,7 +254,9 @@
           "amenities": ["AC", "Panoramic Windows"],
           "busImage": "🚐",
           "rating": 4.6,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -248,7 +276,9 @@
           "amenities": ["AC", "Recliner Seats", "TV", "GPS"],
           "busImage": "🚌",
           "rating": 4.5,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": true
         },
         {
           "id": "TNV002",
@@ -262,7 +292,9 @@
           "amenities": ["Fan", "Push Back Seats"],
           "busImage": "🚌",
           "rating": 3.8,
-          "available": false
+          "available": true,
+          "verified": false,
+          "paid": false
         }
       ]
     },
@@ -282,7 +314,9 @@
           "amenities": ["AC", "Entertainment", "USB Charging"],
           "busImage": "🚌",
           "rating": 4.3,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": true
         }
       ]
     },
@@ -302,7 +336,9 @@
           "amenities": ["AC", "WiFi", "Push Back Seats"],
           "busImage": "🚌",
           "rating": 4.4,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "KNC002",
@@ -316,7 +352,9 @@
           "amenities": ["AC", "Music System"],
           "busImage": "🚐",
           "rating": 4.1,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -336,7 +374,9 @@
           "amenities": ["AC", "Entertainment", "GPS", "Charging"],
           "busImage": "🚌",
           "rating": 4.7,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "TJR002",
@@ -350,7 +390,9 @@
           "amenities": ["Fan", "Push Back Seats", "Music"],
           "busImage": "🚌",
           "rating": 4.0,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -370,7 +412,9 @@
           "amenities": ["AC", "Panoramic Windows", "Entertainment", "WiFi"],
           "busImage": "🚌",
           "rating": 4.9,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "OTY002",
@@ -384,7 +428,9 @@
           "amenities": ["AC", "Hill Station Special Windows"],
           "busImage": "🚐",
           "rating": 4.7,
-          "available": false
+          "available": true,
+          "verified": false,
+          "paid": true
         }
       ]
     },
@@ -404,7 +450,9 @@
           "amenities": ["AC", "Entertainment", "GPS"],
           "busImage": "🚌",
           "rating": 4.3,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -424,7 +472,9 @@
           "amenities": ["AC", "Recliner Seats", "WiFi", "USB"],
           "busImage": "🚌",
           "rating": 4.4,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": true
         },
         {
           "id": "ERD002",
@@ -438,7 +488,9 @@
           "amenities": ["Fan", "Push Back Seats"],
           "busImage": "🚌",
           "rating": 3.9,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -458,7 +510,9 @@
           "amenities": ["AC", "WiFi", "Entertainment"],
           "busImage": "🚌",
           "rating": 4.3,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -478,7 +532,9 @@
           "amenities": ["AC", "Push Back Seats", "GPS"],
           "busImage": "🚌",
           "rating": 4.2,
-          "available": false
+          "available": true,
+          "verified": false,
+          "paid": false
         }
       ]
     },
@@ -498,7 +554,9 @@
           "amenities": ["AC", "Entertainment", "Waterproof Seats"],
           "busImage": "🚌",
           "rating": 4.5,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -518,7 +576,9 @@
           "amenities": ["Fan", "Push Back Seats", "Music"],
           "busImage": "🚌",
           "rating": 3.9,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -538,7 +598,9 @@
           "amenities": ["AC", "Entertainment", "GPS", "Pilgrimage Special"],
           "busImage": "🚌",
           "rating": 4.6,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -558,7 +620,9 @@
           "amenities": ["AC", "Recliner Seats", "TV", "Pilgrimage Special"],
           "busImage": "🚌",
           "rating": 4.7,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -578,7 +642,9 @@
           "amenities": ["AC", "Panoramic Windows", "WiFi", "Entertainment"],
           "busImage": "🚌",
           "rating": 4.8,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         },
         {
           "id": "KNY002",
@@ -592,7 +658,9 @@
           "amenities": ["AC", "Sea View Seats"],
           "busImage": "🚐",
           "rating": 4.5,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     },
@@ -612,7 +680,9 @@
           "amenities": ["AC", "Entertainment", "GPS"],
           "busImage": "🚌",
           "rating": 4.1,
-          "available": true
+          "available": true,
+          "verified": true,
+          "paid": false
         }
       ]
     }

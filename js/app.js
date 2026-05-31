@@ -231,6 +231,15 @@ function createBusCard(bus) {
     ? bus.amenities.slice(0, 3).map(a => `<span class="amenity-tag">${a}</span>`).join('')
     : '<span class="amenity-tag">Details available</span>';
 
+  const statusTags = [];
+  if (bus.verified) {
+    statusTags.push('<span class="status-tag verified">✅</span>');
+  }
+
+  if (bus.paid) {
+    statusTags.push('<span class="status-tag paid-customer">💳</span>');
+  }
+
   card.innerHTML = `
     <div class="card-header">
       <div class="card-top-row">
@@ -242,6 +251,7 @@ function createBusCard(bus) {
       <h3 class="card-operator">${bus.operator}</h3>
       <div class="card-type-row">
         <span class="type-tag">${bus.type}</span>
+        ${statusTags.join('')}
         <span class="card-id">${bus.id}</span>
       </div>
       <div class="card-rating">⭐ ${rating}</div>
