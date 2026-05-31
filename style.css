@@ -3,25 +3,25 @@
    =========================== */
 
 :root {
-  --saffron: #E8521A;
-  --saffron-light: #F26B36;
-  --saffron-pale: #FFF0E8;
-  --gold: #D4A017;
-  --gold-light: #F5C842;
-  --temple-maroon: #8B1A1A;
-  --teal: #0F7B7B;
-  --teal-light: #15A09A;
-  --teal-pale: #E6F4F4;
-  --dark: #1A1512;
-  --dark-2: #2E2420;
-  --mid: #5C4A3D;
-  --light: #F9F5F0;
+  --saffron: #6366F1;
+  --saffron-light: #818CF8;
+  --saffron-pale: #E0E7FF;
+  --gold: #EC4899;
+  --gold-light: #F472B6;
+  --temple-maroon: #6366F1;
+  --teal: #06B6D4;
+  --teal-light: #22D3EE;
+  --teal-pale: #CFFAFE;
+  --dark: #0F172A;
+  --dark-2: #1E293B;
+  --mid: #475569;
+  --light: #F8FAFC;
   --white: #FFFFFF;
-  --border: #E5D9CF;
-  --shadow: 0 4px 24px rgba(26,21,18,0.10);
-  --shadow-lg: 0 12px 48px rgba(26,21,18,0.15);
-  --radius: 16px;
-  --radius-sm: 10px;
+  --border: #E2E8F0;
+  --shadow: 0 4px 24px rgba(15,23,42,0.08);
+  --shadow-lg: 0 12px 48px rgba(15,23,42,0.12);
+  --radius: 20px;
+  --radius-sm: 12px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,9 +57,9 @@ body {
 .hero-pattern {
   position: absolute; inset: 0;
   background-image:
-    radial-gradient(circle at 20% 50%, rgba(232,82,26,0.25) 0%, transparent 50%),
-    radial-gradient(circle at 80% 30%, rgba(15,123,123,0.2) 0%, transparent 45%),
-    radial-gradient(circle at 50% 100%, rgba(212,160,23,0.15) 0%, transparent 40%);
+    radial-gradient(circle at 20% 50%, rgba(99,102,241,0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(6,182,212,0.15) 0%, transparent 45%),
+    radial-gradient(circle at 50% 100%, rgba(236,72,153,0.12) 0%, transparent 40%);
 }
 
 .temple-silhouette {
@@ -153,7 +153,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 4px 20px rgba(26,21,18,0.07);
+  box-shadow: 0 2px 12px rgba(15,23,42,0.06);
 }
 
 .search-card {
@@ -233,7 +233,7 @@ body {
 .btn-search {
   height: 48px;
   padding: 0 28px;
-  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-light) 100%);
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--gold) 100%);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
@@ -242,12 +242,13 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 4px 16px rgba(232,82,26,0.35);
+  box-shadow: 0 4px 16px rgba(99,102,241,0.35);
 }
 
 .btn-search:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(232,82,26,0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(99,102,241,0.45);
+}
 }
 
 .btn-search:active { transform: translateY(0); }
