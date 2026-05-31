@@ -56,6 +56,11 @@ async function initApp() {
   populateDistricts();
   setupEventListeners();
   
+  // Show all buses by default
+  currentResults = sortResults(getAllBuses());
+  displayResults(currentResults);
+  updateUIState(currentResults.length > 0);
+  
   console.log('✓ App initialized successfully!');
 }
 
