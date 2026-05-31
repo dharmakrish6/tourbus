@@ -80,6 +80,28 @@ function getDOMElements() {
   modalContent = document.getElementById('modal-content');
 }
 
+const ANALYTICS_STORAGE_KEY = 'tourbus_click_analytics';
+
+function loadAnalyticsCounts() {
+  try {
+    return JSON.parse(localStorage.getItem(ANALYTICS_STORAGE_KEY)) || {};
+  } catch (error) {
+    console.warn('Unable to parse analytics data:', error);
+    return {};
+  }
+}
+
+function saveAnalyticsCounts(counts) {
+  localStorage.setItem(ANALYTICS_STORAGE_KEY, JSON.stringify(counts));
+}
+
+function trackCardClick(busId) {
+  const counts = loadAnalyticsCounts();
+  counts[busId] = (counts[busId] || 0) + 1;
+  saveAnalyticsCounts(counts);
+  console.log(`Analytics: ${busId} clicked ${counts[busId]} time(s)`);
+}
+
 
 // ============================================
 // DISTRICT POPULATION
@@ -233,12 +255,14 @@ function createBusCard(bus) {
 
   const statusTags = [];
   if (bus.verified) {
-    statusTags.push('<span class="status-tag verified">✅</span>');
+    statusTags.push('<span class="status-tag verified">✅ </span>');
   }
 
   if (bus.paid) {
-    statusTags.push('<span class="status-tag paid-customer">💳</span>');
+    statusTags.push('<span class="status-tag paid-customer">💳 </span>');
   }
+
+  const statusMarkup = statusTags.length ? `<div class="status-tags">${statusTags.join('')}</div>` : '';
 
   card.innerHTML = `
     <div class="card-header">
@@ -248,10 +272,12 @@ function createBusCard(bus) {
           ${bus.available ? 'Available' : 'Unavailable'}
         </span>
       </div>
-      <h3 class="card-operator">${bus.operator}</h3>
+      <div class="operator-meta">
+        <h3 class="card-operator">${bus.operator}</h3>
+        ${statusMarkup}
+      </div>
       <div class="card-type-row">
         <span class="type-tag">${bus.type}</span>
-        ${statusTags.join('')}
         <span class="card-id">${bus.id}</span>
       </div>
       <div class="card-rating">⭐ ${rating}</div>
@@ -286,15 +312,20 @@ function createBusCard(bus) {
     </div>
   `;
 
-  card.addEventListener('click', () => showBusModal(bus));
+  card.addEventListener('click', () => {
+    trackCardClick(bus.id);
+    showBusModal(bus);
+  });
   card.addEventListener('keydown', event => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
+      trackCardClick(bus.id);
       showBusModal(bus);
     }
   });
   card.querySelector('.btn-details').addEventListener('click', event => {
     event.stopPropagation();
+    trackCardClick(bus.id);
     showBusModal(bus);
   });
 
