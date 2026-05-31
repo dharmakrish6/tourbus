@@ -462,8 +462,8 @@ function showBusModal(bus) {
       </div>
 
       <div class="modal-actions">
-        <a class="modal-btn-primary" href="mailto:${bus.email}?subject=Bus Booking Inquiry - ${encodeURIComponent(bus.operator)}">Send Inquiry</a>
-        <a class="modal-btn-secondary" href="tel:${cleanPhone}">Call Now</a>
+        <a class="modal-btn-primary" href="https://wa.me/${cleanPhone}?text=Hi%2C%20I%27m%20interested%20in%20booking%20${encodeURIComponent(bus.operator)}%20bus%20for%20my%20trip.%20Can%20you%20provide%20more%20details%3F" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>
+        <a class="modal-btn-secondary" href="tel:${cleanPhone}">📞 Call Now</a>
       </div>
     </div>
   `;
