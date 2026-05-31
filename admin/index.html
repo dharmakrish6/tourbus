@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin · TourBusNow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="hero analytics-hero">
+    <div class="hero-bg">
+      <div class="hero-pattern"></div>
+      <div class="temple-silhouette"></div>
+    </div>
+    <div class="hero-content">
+      <div class="brand-badge">🔧 Admin Panel</div>
+      <h1 class="hero-title">
+        <span class="title-tamil">TourBusNow</span>
+        <span class="title-main">Add New Bus</span>
+      </h1>
+      <p class="hero-sub">Submit a new bus entry and update the live UI list automatically.</p>
+      <a class="btn-search" href="../">← Back to Home</a>
+    </div>
+  </header>
+
+  <section class="analytics-section">
+    <div class="container">
+      <div class="analytics-card">
+        <h2>Add New Bus</h2>
+        <p class="analytics-summary">Fill in the details below. New entries are saved in browser storage and merged into the home bus list.</p>
+        <form id="admin-form" class="admin-form">
+          <div class="admin-grid">
+            <label>
+              District Name
+              <input type="text" id="district-name" required placeholder="e.g. Chennai" />
+            </label>
+            <label>
+              District ID
+              <input type="text" id="district-id" required placeholder="e.g. chennai" />
+            </label>
+            <label>
+              Bus ID
+              <input type="text" id="bus-id" required placeholder="e.g. CHN999" />
+            </label>
+            <label>
+              Operator Name
+              <input type="text" id="operator" required placeholder="e.g. New Tour Co." />
+            </label>
+            <label>
+              Bus Type
+              <select id="type" required>
+                <option value="">Select Type</option>
+                <option value="AC Luxury">AC Luxury</option>
+                <option value="Sleeper">Sleeper</option>
+                <option value="Non-AC Deluxe">Non-AC Deluxe</option>
+                <option value="Mini Bus">Mini Bus</option>
+              </select>
+            </label>
+            <label>
+              Location
+              <input type="text" id="location" required placeholder="e.g. Koyambedu Bus Stand" />
+            </label>
+            <label>
+              Contact Phone
+              <input type="text" id="contact" required placeholder="e.g. +91 98401 12345" />
+            </label>
+            <label>
+              Email
+              <input type="email" id="email" required placeholder="e.g. info@example.com" />
+            </label>
+            <label>
+              Seats
+              <input type="number" id="seats" min="1" required placeholder="e.g. 45" />
+            </label>
+            <label>
+              Per Day Rent
+              <input type="number" id="rent" min="0" required placeholder="e.g. 12000" />
+            </label>
+            <label>
+              Amenities
+              <input type="text" id="amenities" placeholder="Comma separated" />
+            </label>
+            <label>
+              Bus Emoji
+              <input type="text" id="bus-image" maxlength="2" placeholder="e.g. 🚌" />
+            </label>
+            <label>
+              Rating
+              <input type="number" id="rating" min="0" max="5" step="0.1" placeholder="e.g. 4.5" />
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="available" checked /> Available
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="verified" checked /> Verified
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="paid" checked /> Paid
+            </label>
+          </div>
+          <div class="form-actions">
+            <button class="btn-search" type="submit">Save Bus</button>
+            <button class="btn-reset" type="button" id="clear-additions">Clear Additions</button>
+          </div>
+          <div id="admin-message" class="admin-message"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/admin.js?v=1"></script>
+</body>
+</html>

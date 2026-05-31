@@ -1070,6 +1070,69 @@ body {
   background: var(--light);
 }
 
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.admin-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.admin-grid input,
+.admin-grid select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-message {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.admin-message.success {
+  color: var(--saffron);
+}
+
+.admin-message.error {
+  color: #ef4444;
+}
+
+@media (max-width: 860px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ========== LOADING STATE ========== */
 .loading-shimmer {
   background: linear-gradient(90deg, var(--border) 25%, var(--light) 50%, var(--border) 75%);

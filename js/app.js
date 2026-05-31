@@ -4,6 +4,7 @@
 
 let currentResults = [];
 let currentSort = 'rating';
+const LOCAL_ADDED_BUSES_KEY = 'tourbus_added_buses';
 
 // DOM elements (lazy loaded in initApp)
 let districtSelect, typeFilter, availabilityFilter, seatsFilter;
@@ -48,6 +49,7 @@ async function initApp() {
   }
   
   console.log(`✓ Data ready: ${window.busData.length} districts`);
+  mergeLocalBusAdditions();
   
   // Get DOM elements
   getDOMElements();
@@ -55,6 +57,12 @@ async function initApp() {
   // Setup UI
   populateDistricts();
   setupEventListeners();
+  window.addEventListener('storage', event => {
+    if (event.key === LOCAL_ADDED_BUSES_KEY) {
+      console.log('Storage event: bus additions changed, refreshing data');
+      refreshBusData();
+    }
+  });
   
   // Show all buses by default
   currentResults = sortResults(getAllBuses());
@@ -106,6 +114,61 @@ function trackCardClick(busId) {
 // ============================================
 // DISTRICT POPULATION
 // ============================================
+
+function loadLocalBusAdditions() {
+  try {
+    const raw = localStorage.getItem(LOCAL_ADDED_BUSES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (error) {
+    console.warn('Unable to parse local bus additions:', error);
+    return [];
+  }
+}
+
+function mergeLocalBusAdditions() {
+  const additions = loadLocalBusAdditions();
+  if (!Array.isArray(additions) || additions.length === 0) {
+    return;
+  }
+
+  const existingBusIds = new Set();
+  window.busData.forEach(district => {
+    if (district.buses && Array.isArray(district.buses)) {
+      district.buses.forEach(bus => existingBusIds.add(bus.id));
+    }
+  });
+
+  additions.forEach(add => {
+    if (!add || !add.id || existingBusIds.has(add.id)) {
+      return;
+    }
+
+    let district = window.busData.find(d => d.id === add.districtId);
+    if (!district) {
+      district = {
+        id: add.districtId || add.district.toLowerCase().replace(/\s+/g, '-'),
+        name: add.district || 'Custom',
+        buses: []
+      };
+      window.busData.push(district);
+    }
+
+    district.buses = district.buses || [];
+    district.buses.push(add);
+    existingBusIds.add(add.id);
+  });
+}
+
+function refreshBusData() {
+  loadBusData()
+    .then(() => {
+      mergeLocalBusAdditions();
+      currentResults = sortResults(getAllBuses());
+      displayResults(currentResults);
+      updateUIState(currentResults.length > 0);
+    })
+    .catch(error => console.error('Failed to refresh bus data:', error));
+}
 
 function populateDistricts() {
   if (!window.busData || window.busData.length === 0) {
