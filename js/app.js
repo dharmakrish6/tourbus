@@ -11,6 +11,7 @@ let districtSelect, typeFilter, availabilityFilter, seatsFilter;
 let searchBtn, resetBtn, cardsGrid, emptyState, landingState;
 let resultsHeader, sortBtns, modalOverlay, modalContent;
 let searchSection, searchMini, expandFiltersBtn;
+let closeFiltersBtn;
 
 // ============================================
 // INITIALIZATION
@@ -69,6 +70,28 @@ async function initApp() {
   currentResults = sortResults(getAllBuses());
   displayResults(currentResults);
   updateUIState(currentResults.length > 0);
+
+  // If on mobile and user hasn't applied any filter yet, expand filters to occupy 75% viewport
+  const mobileBreakpoint = 580;
+  const hasAnyFilter = districtSelect.value || typeFilter.value || availabilityFilter.value || seatsFilter.value;
+  if (window.innerWidth <= mobileBreakpoint && !hasAnyFilter && searchSection) {
+    expandFiltersMobile();
+  }
+
+  // Collapse filters automatically when user scrolls down on mobile-expanded panel
+  let lastScrollY = window.scrollY || 0;
+  window.addEventListener('scroll', function() {
+    if (!searchSection) return;
+    const y = window.scrollY || 0;
+    const delta = y - lastScrollY;
+    // If panel is expanded on mobile and user scrolls down, collapse it so results become visible
+    if (searchSection.classList.contains('mobile-expanded')) {
+      if (delta > 20 || y > 40) {
+        collapseFiltersMobile();
+      }
+    }
+    lastScrollY = y;
+  }, { passive: true });
   
   console.log('✓ App initialized successfully!');
 }
@@ -90,6 +113,7 @@ function getDOMElements() {
   searchSection = document.querySelector('.search-section');
   searchMini = document.getElementById('search-mini');
   expandFiltersBtn = document.getElementById('expand-filters');
+  closeFiltersBtn = document.getElementById('close-filters');
 }
 
 const ANALYTICS_STORAGE_KEY = 'tourbus_click_analytics';
@@ -202,14 +226,13 @@ function setupEventListeners() {
   if (expandFiltersBtn) {
     expandFiltersBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      if (searchSection) {
-        searchSection.classList.remove('collapsed');
-      }
-      if (searchMini) {
-        searchMini.style.display = 'none';
-      }
-      // Bring focus to first filter
-      if (districtSelect) districtSelect.focus();
+      expandFiltersMobile();
+    });
+  }
+  if (closeFiltersBtn) {
+    closeFiltersBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      collapseFiltersMobile();
     });
   }
   
@@ -221,6 +244,31 @@ function setupEventListeners() {
       displayResults(sortResults(currentResults));
     });
   });
+}
+
+function expandFiltersMobile() {
+  if (!searchSection) return;
+  searchSection.classList.remove('collapsed');
+  searchSection.classList.add('mobile-expanded');
+  if (searchMini) searchMini.style.display = 'none';
+  if (districtSelect) districtSelect.focus();
+  // ensure we're scrolled to top so the panel is visible
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function collapseFiltersMobile() {
+  if (!searchSection) return;
+  searchSection.classList.remove('mobile-expanded');
+  searchSection.classList.add('collapsed');
+  if (searchMini) {
+    searchMini.style.display = 'block';
+    const count = currentResults ? currentResults.length : 0;
+    const countText = count > 0 ? `Showing ${count} result${count !== 1 ? 's' : ''}` : '';
+    const miniCountEl = document.getElementById('mini-count');
+    if (miniCountEl) miniCountEl.textContent = countText;
+  }
+  // keep the collapsed bar visible
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ============================================
