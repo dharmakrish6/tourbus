@@ -12,6 +12,7 @@ let searchBtn, resetBtn, cardsGrid, emptyState, landingState;
 let resultsHeader, sortBtns, modalOverlay, modalContent;
 let searchSection, searchMini, expandFiltersBtn;
 let closeFiltersBtn;
+let isInteracting = false;
 
 // ============================================
 // INITIALIZATION
@@ -78,14 +79,37 @@ async function initApp() {
     expandFiltersMobile();
   }
 
+  // Interaction handlers: avoid collapsing when user interacts with inputs/selects
+  if (searchSection) {
+    searchSection.addEventListener('focusin', () => {
+      isInteracting = true;
+      if (closeFiltersBtn) closeFiltersBtn.style.display = 'none';
+    });
+    searchSection.addEventListener('focusout', () => {
+      setTimeout(() => {
+        isInteracting = false;
+        if (closeFiltersBtn) closeFiltersBtn.style.display = '';
+      }, 250);
+    });
+    searchSection.addEventListener('pointerdown', () => {
+      isInteracting = true;
+      if (closeFiltersBtn) closeFiltersBtn.style.display = 'none';
+      setTimeout(() => {
+        isInteracting = false;
+        if (closeFiltersBtn) closeFiltersBtn.style.display = '';
+      }, 350);
+    }, { passive: true });
+  }
+
   // Collapse filters automatically when user scrolls down on mobile-expanded panel
   let lastScrollY = window.scrollY || 0;
   window.addEventListener('scroll', function() {
     if (!searchSection) return;
     const y = window.scrollY || 0;
     const delta = y - lastScrollY;
-    // If panel is expanded on mobile and user scrolls down, collapse it so results become visible
-    if (searchSection.classList.contains('mobile-expanded')) {
+    // If panel is expanded on mobile and user scrolls down, collapse it so results become visible.
+    // Do NOT collapse while the user is interacting with inputs/selects (isInteracting)
+    if (searchSection.classList.contains('mobile-expanded') && !isInteracting) {
       if (delta > 20 || y > 40) {
         collapseFiltersMobile();
       }
