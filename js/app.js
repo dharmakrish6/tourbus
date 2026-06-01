@@ -10,6 +10,7 @@ const LOCAL_ADDED_BUSES_KEY = 'tourbus_added_buses';
 let districtSelect, typeFilter, availabilityFilter, seatsFilter;
 let searchBtn, resetBtn, cardsGrid, emptyState, landingState;
 let resultsHeader, sortBtns, modalOverlay, modalContent;
+let searchSection, searchMini, expandFiltersBtn;
 
 // ============================================
 // INITIALIZATION
@@ -86,6 +87,9 @@ function getDOMElements() {
   sortBtns = document.querySelectorAll('.sort-btn');
   modalOverlay = document.getElementById('modal-overlay');
   modalContent = document.getElementById('modal-content');
+  searchSection = document.querySelector('.search-section');
+  searchMini = document.getElementById('search-mini');
+  expandFiltersBtn = document.getElementById('expand-filters');
 }
 
 const ANALYTICS_STORAGE_KEY = 'tourbus_click_analytics';
@@ -195,6 +199,19 @@ function populateDistricts() {
 function setupEventListeners() {
   searchBtn.addEventListener('click', performSearch);
   resetBtn.addEventListener('click', resetFilters);
+  if (expandFiltersBtn) {
+    expandFiltersBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (searchSection) {
+        searchSection.classList.remove('collapsed');
+      }
+      if (searchMini) {
+        searchMini.style.display = 'none';
+      }
+      // Bring focus to first filter
+      if (districtSelect) districtSelect.focus();
+    });
+  }
   
   sortBtns.forEach(btn => {
     btn.addEventListener('click', function() {
@@ -239,6 +256,21 @@ function performSearch() {
   currentResults = sortResults(results);
   displayResults(currentResults);
   updateUIState(results.length > 0);
+
+  // On small screens, collapse the filter card to a compact bar so results are visible
+  const mobileBreakpoint = 580;
+  if (window.innerWidth <= mobileBreakpoint && searchSection) {
+    searchSection.classList.add('collapsed');
+    if (searchMini) {
+      const count = currentResults ? currentResults.length : 0;
+      const countText = count > 0 ? `Showing ${count} result${count !== 1 ? 's' : ''}` : 'No results';
+      const miniCountEl = document.getElementById('mini-count');
+      if (miniCountEl) miniCountEl.textContent = countText;
+      searchMini.style.display = 'block';
+    }
+    // Scroll to top so the collapsed bar is visible above results
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 function sortResults(buses) {
@@ -278,6 +310,9 @@ function resetFilters() {
   const ratingBtn = document.querySelector('[data-sort="rating"]');
   if (ratingBtn) ratingBtn.classList.add('active');
   currentSort = 'rating';
+  // Ensure filters are expanded after reset
+  if (searchSection) searchSection.classList.remove('collapsed');
+  if (searchMini) searchMini.style.display = 'none';
 }
 
 // ============================================

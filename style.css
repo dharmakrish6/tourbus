@@ -156,6 +156,23 @@ body {
   box-shadow: 0 2px 12px rgba(15,23,42,0.06);
 }
 
+/* Compact mini bar shown when filters are collapsed on small screens */
+.search-mini {
+  display: none;
+  padding: 8px 0;
+}
+.search-mini .mini-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.search-mini .mini-left { display:flex; align-items:center; gap:8px; }
+.search-mini .mini-right { display:flex; align-items:center; }
+.search-section.collapsed { padding: 8px 0; }
+.search-section.collapsed .search-card { display: none !important; }
+.search-section.collapsed .search-mini { display: block; }
+
 .search-card {
   background: var(--white);
 }
