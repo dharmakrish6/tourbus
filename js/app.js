@@ -86,18 +86,20 @@ async function initApp() {
       if (closeFiltersBtn) closeFiltersBtn.style.display = 'none';
     });
     searchSection.addEventListener('focusout', () => {
+      // Keep interacting flag set longer to allow time to click Find Buses after selecting from dropdown
       setTimeout(() => {
         isInteracting = false;
         if (closeFiltersBtn) closeFiltersBtn.style.display = '';
-      }, 250);
+      }, 2000);
     });
     searchSection.addEventListener('pointerdown', () => {
       isInteracting = true;
       if (closeFiltersBtn) closeFiltersBtn.style.display = 'none';
+      // Keep interaction flag longer to allow tapping Find Buses after selecting
       setTimeout(() => {
         isInteracting = false;
         if (closeFiltersBtn) closeFiltersBtn.style.display = '';
-      }, 350);
+      }, 2000);
     }, { passive: true });
   }
 
@@ -300,6 +302,9 @@ function collapseFiltersMobile() {
 // ============================================
 
 function performSearch() {
+  // Temporarily lock interaction to prevent auto-collapse during search
+  isInteracting = true;
+  
   const districtId = districtSelect.value;
   const busType = typeFilter.value;
   const availability = availabilityFilter.value;
@@ -343,6 +348,11 @@ function performSearch() {
     // Scroll to top so the collapsed bar is visible above results
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  
+  // Release the interaction lock after a short delay
+  setTimeout(() => {
+    isInteracting = false;
+  }, 500);
 }
 
 function sortResults(buses) {
