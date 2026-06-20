@@ -5,7 +5,7 @@
       "name": "Chennai",
       "buses": [
         {
-          "id": "CHN001",
+          "id": "CHN00123",
           "operator": "Chennai Express Tours",
           "type": "AC Luxury",
           "location": "Koyambedu Bus Stand, Chennai - 600107",
