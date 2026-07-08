@@ -316,7 +316,7 @@ function performSearch() {
   isInteracting = true;
   
   const districtId = districtSelect.value;
-  // const busType = typeFilter.value;
+  const busType = typeFilter.value;
   const availability = availabilityFilter.value;
   const minSeats = seatsFilter.value ? parseInt(seatsFilter.value) : 0;
 
