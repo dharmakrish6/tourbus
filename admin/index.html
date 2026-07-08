@@ -104,12 +104,18 @@
             <button class="btn-search" type="submit">Save Bus</button>
             <button class="btn-reset" type="button" id="clear-additions">Clear Additions</button>
           </div>
+          <div id="admin-status" class="admin-status">Initializing Firebase status...</div>
           <div id="admin-message" class="admin-message"></div>
         </form>
       </div>
     </div>
   </section>
 
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="../js/firebase-config.js"></script>
+  <script src="../js/firebase-services.js"></script>
   <script src="../js/admin.js?v=6"></script>
 </body>
 </html>

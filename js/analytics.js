@@ -19,7 +19,8 @@ function clearAnalyticsCounts() {
 }
 
 function formatCount(value) {
-  return value.toLocaleString('en-IN');
+  const safeValue = Number(value) || 0;
+  return safeValue.toLocaleString('en-IN');
 }
 
 function renderAnalytics(buses, counts) {
@@ -84,23 +85,35 @@ async function initAnalytics() {
   }
 
   try {
-    const response = await fetch('../buses.json');
-    const data = await response.json();
-    const buses = [];
+    let buses = [];
+    let counts = loadAnalyticsCounts();
 
-    (data.districts || []).forEach(district => {
-      if (Array.isArray(district.buses)) {
-        district.buses.forEach(bus => {
-          buses.push({
-            ...bus,
-            district: district.name,
-            districtId: district.id
-          });
-        });
+    if (typeof isFirebaseReady === 'function' && isFirebaseReady()) {
+      try {
+        buses = await fetchAllFirebaseBuses();
+        counts = await fetchAnalyticsCountsFromFirestore();
+      } catch (firebaseError) {
+        console.warn('Firebase analytics fetch failed:', firebaseError);
       }
-    });
+    }
 
-    renderAnalytics(buses, loadAnalyticsCounts());
+    if (buses.length === 0) {
+      const response = await fetch('../buses.json');
+      const data = await response.json();
+      (data.districts || []).forEach(district => {
+        if (Array.isArray(district.buses)) {
+          district.buses.forEach(bus => {
+            buses.push({
+              ...bus,
+              district: district.name,
+              districtId: district.id
+            });
+          });
+        }
+      });
+    }
+
+    renderAnalytics(buses, counts);
   } catch (error) {
     const summaryEl = document.getElementById('analytics-summary');
     const tableWrapper = document.getElementById('analytics-table-wrapper');

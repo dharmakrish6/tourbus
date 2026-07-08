@@ -52,7 +52,9 @@ async function initApp() {
   }
   
   console.log(`✓ Data ready: ${window.busData.length} districts`);
-  mergeLocalBusAdditions();
+  if (typeof isFirebaseReady !== 'function' || !isFirebaseReady()) {
+    mergeLocalBusAdditions();
+  }
   
   // Get DOM elements
   getDOMElements();
@@ -60,12 +62,14 @@ async function initApp() {
   // Setup UI
   populateDistricts();
   setupEventListeners();
-  window.addEventListener('storage', event => {
-    if (event.key === LOCAL_ADDED_BUSES_KEY) {
-      console.log('Storage event: bus additions changed, refreshing data');
-      refreshBusData();
-    }
-  });
+  if (typeof isFirebaseReady !== 'function' || !isFirebaseReady()) {
+    window.addEventListener('storage', event => {
+      if (event.key === LOCAL_ADDED_BUSES_KEY) {
+        console.log('Storage event: bus additions changed, refreshing data');
+        refreshBusData();
+      }
+    });
+  }
   
   // Show all buses by default
   currentResults = sortResults(getAllBuses());
@@ -162,6 +166,12 @@ function trackCardClick(busId) {
   counts[busId] = (counts[busId] || 0) + 1;
   saveAnalyticsCounts(counts);
   console.log(`Analytics: ${busId} clicked ${counts[busId]} time(s)`);
+
+  if (typeof isFirebaseReady === 'function' && isFirebaseReady()) {
+    incrementBusClickCount(busId).catch(error => {
+      console.warn('Firebase analytics update failed:', error);
+    });
+  }
 }
 
 
@@ -198,14 +208,14 @@ function mergeLocalBusAdditions() {
     }
 
     let district = window.busData.find(d => d.id === add.districtId);
-    if (!district) {
-      district = {
-        id: add.districtId || add.district.toLowerCase().replace(/\s+/g, '-'),
-        name: add.district || 'Custom',
-        buses: []
-      };
-      window.busData.push(district);
-    }
+    // if (!district) {
+    //   district = {
+    //     id: add.districtId || add.district.toLowerCase().replace(/\s+/g, '-'),
+    //     name: add.district || 'Custom',
+    //     buses: []
+    //   };
+    //   window.busData.push(district);
+    // }
 
     district.buses = district.buses || [];
     district.buses.push(add);
@@ -420,6 +430,11 @@ function displayResults(buses) {
   document.getElementById('results-title').textContent = `Found ${buses.length} Bus${buses.length !== 1 ? 'es' : ''}`;
 }
 
+function formatCurrency(value) {
+  const safeValue = Number(value) || 0;
+  return `₹${safeValue.toLocaleString('en-IN')}`;
+}
+
 function createBusCard(bus) {
   const card = document.createElement('div');
   card.className = 'bus-card';
@@ -428,7 +443,7 @@ function createBusCard(bus) {
   card.setAttribute('aria-label', `View details for ${bus.operator}`);
 
   const rating = bus.rating ? `${bus.rating}/5.0` : 'N/A';
-  const price = `₹${bus.perDayRent.toLocaleString('en-IN')}`;
+  const price = formatCurrency(bus.perDayRent);
   const amenities = bus.amenities && bus.amenities.length > 0
     ? bus.amenities.slice(0, 3).map(a => `<span class="amenity-tag">${a}</span>`).join('')
     : '<span class="amenity-tag">Details available</span>';
@@ -488,7 +503,7 @@ function createBusCard(bus) {
     </div>
     <div class="card-footer">
       <button class="btn-details" type="button">View Details</button>
-      <a class="btn-call" href="tel:${bus.contact.replace(/\s/g, '')}" onclick="event.stopPropagation()">Call</a>
+      <a class="btn-call" href="tel:${bus.contact.replace(/\s/g, '')??''}" onclick="event.stopPropagation()">Call</a>
     </div>
   `;
 
@@ -520,7 +535,7 @@ function showBusModal(bus) {
   if (!modalContent) return;
 
   const rating = bus.rating ? `${bus.rating}/5.0` : 'N/A';
-  const cleanPhone = bus.contact.replace(/\s/g, '');
+  const cleanPhone = String(bus.contact || '').replace(/\s/g, '');
   
   modalContent.innerHTML = `
     <div class="modal-hero">
@@ -538,7 +553,7 @@ function showBusModal(bus) {
           <div class="lbl">Seats</div>
         </div>
         <div class="modal-stat">
-          <div class="val">₹${bus.perDayRent.toLocaleString('en-IN')}</div>
+          <div class="val">${formatCurrency(bus.perDayRent)}</div>
           <div class="lbl">Per Day</div>
         </div>
         <div class="modal-stat">

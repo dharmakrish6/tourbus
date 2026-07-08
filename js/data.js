@@ -4,37 +4,42 @@ window.busData = [];
 // Load bus data from JSON using multiple methods
 async function loadBusData() {
   try {
-    console.log('🔄 Starting to load buses.json...');
-    console.log('Current location:', window.location.href);
-    
-    // Method 1: Try fetch
-    try {
-      console.log('Attempting fetch method...');
-      const response = await fetch('buses.json');
-      
-      console.log('Fetch response status:', response.status);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
+    console.log('🔄 Starting to load bus data...');
+
+    if (typeof isFirebaseReady === 'function' && isFirebaseReady()) {
+      try {
+        console.log('Attempting to load data from Firestore...');
+        const districts = await loadFirestoreBusData();
+        if (districts && districts.length > 0) {
+          window.busData = districts;
+          console.log(`✓ Loaded ${window.busData.length} districts from Firestore`);
+          return window.busData;
+        }
+        console.warn('Firestore returned no districts; falling back to buses.json');
+      } catch (firebaseError) {
+        console.warn('Firestore load failed:', firebaseError.message || firebaseError);
       }
-      
-      const data = await response.json();
-      console.log('✓ JSON parsed successfully via fetch');
-      
-      window.busData = data.districts || [];
-      
-      console.log(`✓ Successfully loaded ${window.busData.length} districts via fetch`);
-      console.log('Districts:', window.busData.map(d => d.name).join(', '));
-      
-      return window.busData;
-    } catch (fetchError) {
-      console.warn('Fetch method failed:', fetchError.message);
-      console.log('Trying XMLHttpRequest method...');
-      
-      // Method 2: Try XMLHttpRequest (more compatible with file://)
-      return new Promise((resolve, reject) => {
+    } else {
+      console.log('Firebase not configured or unavailable; falling back to buses.json');
+    }
+
+    console.log('Loading bus data from buses.json...');
+    const response = await fetch('buses.json');
+
+    if (!response.ok) {
+      throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    window.busData = data.districts || [];
+    console.log(`✓ Successfully loaded ${window.busData.length} districts via buses.json`);
+    return window.busData;
+  } catch (error) {
+    console.warn('buses.json fetch failed, attempting XMLHttpRequest fallback...');
+
+    try {
+      return await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        
         xhr.onload = function() {
           try {
             if (xhr.status === 0 || xhr.status === 200) {
@@ -49,21 +54,16 @@ async function loadBusData() {
             reject(new Error('Failed to parse JSON: ' + parseError.message));
           }
         };
-        
         xhr.onerror = function() {
           reject(new Error('XMLHttpRequest failed'));
         };
-        
         xhr.open('GET', 'buses.json', true);
         xhr.send();
       });
+    } catch (fallbackError) {
+      console.error('✗ Error loading bus data:', fallbackError);
+      return [];
     }
-  } catch (error) {
-    console.error('✗ Error loading bus data:', error);
-    console.error('Error type:', error.name);
-    console.error('Error message:', error.message);
-    console.error('Stack:', error.stack);
-    return [];
   }
 }
 

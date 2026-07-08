@@ -34,8 +34,15 @@ function clearAdminMessage() {
 function initAdmin() {
   const form = document.getElementById('admin-form');
   const clearButton = document.getElementById('clear-additions');
+  const statusText = document.getElementById('admin-status');
 
   if (!form) return;
+
+  if (statusText) {
+    statusText.textContent = (typeof isFirebaseReady === 'function' && isFirebaseReady())
+      ? 'Connected to Firestore. New buses will be saved to Firebase.'
+      : 'Firebase is not configured. New buses save locally only.';
+  }
 
   form.addEventListener('submit', event => {
     event.preventDefault();
@@ -91,14 +98,35 @@ function initAdmin() {
       district: districtName
     };
 
-    const updated = [...existing, newBus];
-    saveAdminBuses(updated);
-    showAdminMessage('New bus details saved successfully. Open home to see the updated list.', 'success');
-    localStorage.setItem('tourbus_added_buses', JSON.stringify(updated));
-    form.reset();
-    document.getElementById('available').checked = true;
-    document.getElementById('verified').checked = true;
-    document.getElementById('paid').checked = true;
+    if (typeof isFirebaseReady === 'function' && isFirebaseReady()) {
+      saveBusToFirestore(newBus)
+        .then(savedBus => {
+          showAdminMessage(`Bus saved to Firestore with ID ${savedBus.id}.`, 'success');
+          form.reset();
+          document.getElementById('available').checked = true;
+          document.getElementById('verified').checked = true;
+          document.getElementById('paid').checked = true;
+        })
+        .catch(firebaseError => {
+          console.error('Failed to save bus to Firestore:', firebaseError);
+          const updatedLocal = [...existing, newBus];
+          saveAdminBuses(updatedLocal);
+          localStorage.setItem('tourbus_added_buses', JSON.stringify(updatedLocal));
+          const message = firebaseError && firebaseError.code === 'permission-denied'
+            ? 'Firestore permission denied. Update your Firestore rules to allow writes from this app.'
+            : 'Firestore save failed; bus stored locally instead.';
+          showAdminMessage(message, 'error');
+        });
+    } else {
+      const updatedLocal = [...existing, newBus];
+      saveAdminBuses(updatedLocal);
+      localStorage.setItem('tourbus_added_buses', JSON.stringify(updatedLocal));
+      showAdminMessage('New bus details saved locally. Open home to see the updated list.', 'success');
+      form.reset();
+      document.getElementById('available').checked = true;
+      document.getElementById('verified').checked = true;
+      document.getElementById('paid').checked = true;
+    }
   });
 
   if (clearButton) {
