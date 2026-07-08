@@ -208,14 +208,14 @@ function mergeLocalBusAdditions() {
     }
 
     let district = window.busData.find(d => d.id === add.districtId);
-    // if (!district) {
-    //   district = {
-    //     id: add.districtId || add.district.toLowerCase().replace(/\s+/g, '-'),
-    //     name: add.district || 'Custom',
-    //     buses: []
-    //   };
-    //   window.busData.push(district);
-    // }
+    if (!district) {
+      district = {
+        id: add.districtId || add.district.toLowerCase().replace(/\s+/g, '-'),
+        name: add.district || 'Custom',
+        buses: []
+      };
+      window.busData.push(district);
+    }
 
     district.buses = district.buses || [];
     district.buses.push(add);
@@ -316,7 +316,7 @@ function performSearch() {
   isInteracting = true;
   
   const districtId = districtSelect.value;
-  const busType = typeFilter.value;
+  // const busType = typeFilter.value;
   const availability = availabilityFilter.value;
   const minSeats = seatsFilter.value ? parseInt(seatsFilter.value) : 0;
 
