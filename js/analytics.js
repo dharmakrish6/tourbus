@@ -127,4 +127,4 @@ async function initAnalytics() {
   }
 }
 
-initAnalytics();
+window.initAnalytics = initAnalytics;

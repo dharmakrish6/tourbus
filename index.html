@@ -3,148 +3,182 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tourist Bus Booking</title>
+  <title>Tourzin · Book Verified Tour Buses Across Tamil Nadu</title>
+  <meta name="description" content="Tourzin connects you with verified tour bus, van, and coach operators across Tamil Nadu. Compare, contact, and book directly — no middlemen, no guesswork." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
 
-  <!-- Hero Header -->
-  <header class="hero">
-    <div class="hero-bg">
-      <div class="hero-pattern"></div>
-      <div class="temple-silhouette"></div>
+  <!-- Navbar -->
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-nav-brand" href="index.html"><span class="brand-emoji">🚌</span> Tourzin</a>
+      <div class="site-nav-links">
+        <a href="#what-we-do">What We Do</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#why-tourzin">Why Tourzin</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <a class="btn-nav-login" href="login.html">Log In</a>
+      <button class="nav-toggle" aria-label="Toggle menu">☰</button>
     </div>
-    <div class="hero-content">
-      <div class="brand-badge">🏛️ Govt. Registered Operators</div>
-      <h1 class="hero-title">
-        <span class="title-tamil">Namma Tour Bus</span>
-        <span class="title-main">Tour Bus Rental</span>
-      </h1>
-      <p class="hero-sub">Explore 25+ districts · 150+ operators · Transparent pricing</p>
-      <div class="stats-row">
-        <div class="stat"><span id="total-buses">200</span><label>Buses</label></div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="landing-hero">
+    <div class="landing-blob b1"></div>
+    <div class="landing-blob b2"></div>
+    <div class="landing-blob b3"></div>
+    <div class="landing-hero-content">
+      <div class="landing-eyebrow">🏛️ Govt. Registered Operators</div>
+      <h1 class="landing-headline">Book verified tour buses <span class="accent">across Tamil Nadu</span></h1>
+      <p class="landing-sub">Tourzin connects you directly with independent travel operators — tempo travellers, vans, mini buses, coaches, and buses — with transparent pricing and no middlemen. Compare, contact, and confirm your trip in minutes.</p>
+      <div class="landing-cta-row">
+        <a class="btn-hero-primary" href="login.html">Get Started →</a>
+        <a class="btn-hero-secondary" href="#how-it-works">See How It Works</a>
+      </div>
+      <div class="landing-stats-row stats-row">
+        <div class="stat"><span data-count-to="200">0</span><label>Buses</label></div>
         <div class="stat-sep">·</div>
-        <div class="stat"><span>25</span><label>Districts</label></div>
+        <div class="stat"><span data-count-to="25">0</span><label>Districts</label></div>
         <div class="stat-sep">·</div>
-        <div class="stat"><span id="available-count">150</span><label>Available Now</label></div>
+        <div class="stat"><span data-count-to="150">0</span><label>Available Now</label></div>
       </div>
     </div>
   </header>
 
-  <!-- Search & Filter Section -->
-  <section class="search-section">
+  <!-- What We Do -->
+  <section class="landing-section" id="what-we-do">
     <div class="container">
-      <div class="search-card">
-        <button id="close-filters" class="btn-reset mobile-close" aria-label="Close filters">✕</button>
-        <div class="search-grid">
-          <div class="field-group">
-            <label for="district-select">📍 Select District</label>
-            <select id="district-select">
-              <option value="">— Choose a District —</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="type-filter">🚌 Bus Type</label>
-            <select id="type-filter">
-              <option value="">All Types</option>
-              <option value="Bus">Bus</option>
-              <option value="TT">TT Van</option>
-              <option value="Coachbus">Coachbus</option>
-              <option value="Urbania">Urbania</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="availability-filter">✅ Availability</label>
-            <select id="availability-filter">
-              <option value="">All</option>
-              <option value="true">Available Now</option>
-              <option value="false">Not Available</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label for="seats-filter">👥 Min. Seats</label>
-            <input type="number" id="seats-filter" placeholder="e.g. 40" min="1" max="60" />
-          </div>
-        </div>
-        <div class="search-actions">
-          <button class="btn-search" id="search-btn">🔍 Find Buses</button>
-          <button class="btn-reset" id="reset-btn">↺ Reset</button>
-        </div>
+      <div class="landing-section-head reveal">
+        <div class="landing-section-eyebrow">What We Do</div>
+        <h2 class="landing-section-title">Two ways to book, your choice</h2>
+        <p class="landing-section-sub">Tourzin is a listing and booking facilitation platform serving customers across Tamil Nadu, with two booking models designed for different needs.</p>
       </div>
-      <div class="search-mini" id="search-mini" style="display:none">
-        <div class="mini-row">
-          <div class="mini-left">
-            <strong id="mini-summary">Filters</strong>
-            <span id="mini-count" style="margin-left:8px;color:#666;font-size:13px"></span>
-          </div>
-          <div class="mini-right">
-            <button id="expand-filters" class="btn-reset">⚙️ Show Filters</button>
-          </div>
+      <div class="model-grid reveal-stagger">
+        <div class="model-card">
+          <div class="model-card-icon">🤝</div>
+          <h3>Tourzin Managed Booking</h3>
+          <p>For selected partners, our team handles the complete booking process end-to-end.</p>
+          <ul>
+            <li>Finding the right vehicle for your trip</li>
+            <li>Checking real-time availability</li>
+            <li>Coordinating directly with travel operators</li>
+            <li>Confirming bookings &amp; ongoing support</li>
+          </ul>
+        </div>
+        <div class="model-card">
+          <div class="model-card-icon">📋</div>
+          <h3>Direct Listing</h3>
+          <p>Browse our marketplace and connect with travel operators yourself, with full flexibility.</p>
+          <ul>
+            <li>Compare available vehicles side by side</li>
+            <li>View verified operator information</li>
+            <li>Contact the operator directly — no middlemen</li>
+            <li>Finalize pricing and trip details yourself</li>
+          </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Results Section -->
-  <section class="results-section">
+  <!-- How It Works -->
+  <section class="landing-section alt" id="how-it-works">
     <div class="container">
-      <div class="results-header" id="results-header" style="display:none">
-        <h2 id="results-title">Results</h2>
-        <div class="sort-group">
-          <span>Sort by:</span>
-          <button class="sort-btn active" data-sort="rating">⭐ Rating</button>
-          <button class="sort-btn" data-sort="price-asc">₹ Low</button>
-          <button class="sort-btn" data-sort="price-desc">₹ High</button>
-          <button class="sort-btn" data-sort="seats">💺 Seats</button>
+      <div class="landing-section-head reveal">
+        <div class="landing-section-eyebrow">How It Works</div>
+        <h2 class="landing-section-title">From sign-in to booked in four steps</h2>
+        <p class="landing-section-sub">No app to download, no lengthy forms — just a quick sign-in and you're browsing verified buses.</p>
+      </div>
+      <div class="steps-grid reveal-stagger">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Sign in</h3>
+          <p>Use your Google account or phone number — takes seconds, no passwords to remember.</p>
         </div>
-      </div>
-      <div id="cards-grid" class="cards-grid"></div>
-      <div id="empty-state" class="empty-state" style="display:none">
-        <div class="empty-icon">🗺️</div>
-        <h3>No buses found</h3>
-        <p>Try adjusting your filters or selecting a different district.</p>
-      </div>
-      <div id="landing-state" class="landing-state">
-        <div class="landing-icon">🚌</div>
-        <h3>Select a District to Begin</h3>
-        <p>Choose from 20 districts across Tamil Nadu to find tourist buses with full details, contact info, and pricing.</p>
-        <div class="featured-districts">
-          <span class="chip" onclick="quickSelect('chennai')">Chennai</span>
-          <span class="chip" onclick="quickSelect('ooty')">Ooty</span>
-          <span class="chip" onclick="quickSelect('madurai')">Madurai</span>
-          <span class="chip" onclick="quickSelect('kanyakumari')">Kanyakumari</span>
-          <span class="chip" onclick="quickSelect('thanjavur')">Thanjavur</span>
-          <span class="chip" onclick="quickSelect('coimbatore')">Coimbatore</span>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Choose your district</h3>
+          <p>Browse buses across 25+ Tamil Nadu districts and filter by type, seats, and availability.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Contact the operator</h3>
+          <p>Message on WhatsApp or call directly — compare pricing and trip details yourself.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h3>Confirm &amp; travel</h3>
+          <p>Finalize details with the operator and hit the road with confidence.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Modal -->
-  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
-    <div class="modal-card" id="modal-card" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-      <div id="modal-content"></div>
+  <!-- Why Tourzin -->
+  <section class="landing-section" id="why-tourzin">
+    <div class="container">
+      <div class="landing-section-head reveal">
+        <div class="landing-section-eyebrow">Why Tourzin</div>
+        <h2 class="landing-section-title">Built on trust, made for travelers</h2>
+        <p class="landing-section-sub">Our mission is to make booking a tour vehicle as easy as booking a hotel or ordering food online.</p>
+      </div>
+      <div class="value-grid reveal-stagger">
+        <div class="value-card">
+          <div class="value-card-icon">🤝</div>
+          <h3>Trust</h3>
+          <p>Building long-term relationships through honesty and transparency.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card-icon">❤️</div>
+          <h3>Customer First</h3>
+          <p>Every decision starts with improving your booking experience.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card-icon">⭐</div>
+          <h3>Quality</h3>
+          <p>Promoting reliable operators and encouraging high service standards.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card-icon">💡</div>
+          <h3>Innovation</h3>
+          <p>Using technology to simplify travel planning and booking.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card-icon">🌱</div>
+          <h3>Partnership</h3>
+          <p>Growing together with travel businesses across India.</p>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="landing-section alt">
+    <div class="cta-banner reveal">
+      <h2>Ready to find your bus?</h2>
+      <p>Sign in with Google or your phone number and start browsing verified tour buses today.</p>
+      <a class="btn-hero-primary" href="login.html">Get Started →</a>
+    </div>
+  </section>
 
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      
-<p>© 2026 NammaTourBus. All rights reserved.</p>
+      <nav class="footer-nav">
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </nav>
+      <p>© 2026 Tourzin. All rights reserved.</p>
       <p class="footer-sub">All details are indicative. Confirm directly with operators before booking.</p>
     </div>
   </footer>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-  <script src="js/firebase-config.js"></script>
-  <script src="js/firebase-services.js"></script>
-  <script src="js/data.js?v=9"></script>
-  <script src="js/app.js?v=9"></script>
+  <script src="js/scroll-reveal.js?v=1"></script>
 </body>
 </html>

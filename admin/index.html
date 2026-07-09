@@ -6,7 +6,7 @@
   <title>Admin · TourBusNow</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../style.css?v=4" />
 </head>
 <body>
   <header class="hero analytics-hero">
@@ -27,13 +27,43 @@
 
   <section class="analytics-section">
     <div class="container">
+      <div class="analytics-card auth-gate" id="auth-gate-card">
+        <h2>Admin Sign-In</h2>
+        <p>Enter an authorized phone number to receive a one-time verification code.</p>
+        <div id="auth-message" class="admin-message"></div>
+
+        <div id="auth-step-phone">
+          <div class="field-group">
+            <label for="auth-phone">Phone Number</label>
+            <input type="tel" id="auth-phone" placeholder="+91XXXXXXXXXX" />
+          </div>
+          <button class="btn-search" type="button" id="auth-send-otp">Send Code</button>
+        </div>
+
+        <div id="auth-step-otp" style="display:none">
+          <div class="field-group">
+            <label for="auth-otp">Verification Code</label>
+            <input type="text" id="auth-otp" inputmode="numeric" placeholder="6-digit code" />
+          </div>
+          <button class="btn-search" type="button" id="auth-verify-otp">Verify &amp; Continue</button>
+          <button class="btn-reset" type="button" id="auth-resend">Resend Code</button>
+        </div>
+
+        <div id="recaptcha-container"></div>
+      </div>
+
+      <div id="gated-content" style="display:none">
+        <div class="auth-status-bar">
+          <span id="auth-status-text"></span>
+          <button class="btn-reset" type="button" id="auth-sign-out">Sign Out</button>
+        </div>
       <div class="analytics-card">
         <h2>Add New Bus</h2>
         <p class="analytics-summary">Fill in the details below. New entries are saved in browser storage and merged into the home bus list.</p>
         <form id="admin-form" class="admin-form">
           <div class="admin-grid">
-            <label for="district">Select District
-              <select id="district" name="district">
+            <label for="district-name">Select District
+              <select id="district-name" name="district-name" required>
     <option value="">-- Select District --</option>
     <option value="Ariyalur">Ariyalur</option>
     <option value="Chengalpattu">Chengalpattu</option>
@@ -76,54 +106,11 @@
 </select>
             </label>
 
-            <label>
-              District ID
-              <label for="district">Select District
-              <select id="district" name="district">
-    <option value="">-- Select District --</option>
-    <option value="Ariyalur">Ariyalur</option>
-    <option value="Chengalpattu">Chengalpattu</option>
-    <option value="Chennai">Chennai</option>
-    <option value="Coimbatore">Coimbatore</option>
-    <option value="Cuddalore">Cuddalore</option>
-    <option value="Dharmapuri">Dharmapuri</option>
-    <option value="Dindigul">Dindigul</option>
-    <option value="Erode">Erode</option>
-    <option value="Kallakurichi">Kallakurichi</option>
-    <option value="Kanchipuram">Kanchipuram</option>
-    <option value="Kanniyakumari">Kanniyakumari</option>
-    <option value="Karur">Karur</option>
-    <option value="Krishnagiri">Krishnagiri</option>
-    <option value="Madurai">Madurai</option>
-    <option value="Mayiladuthurai">Mayiladuthurai</option>
-    <option value="Nagapattinam">Nagapattinam</option>
-    <option value="Namakkal">Namakkal</option>
-    <option value="Nilgiris">Nilgiris</option>
-    <option value="Perambalur">Perambalur</option>
-    <option value="Pudukkottai">Pudukkottai</option>
-    <option value="Ramanathapuram">Ramanathapuram</option>
-    <option value="Ranipet">Ranipet</option>
-    <option value="Salem">Salem</option>
-    <option value="Sivaganga">Sivaganga</option>
-    <option value="Tenkasi">Tenkasi</option>
-    <option value="Thanjavur">Thanjavur</option>
-    <option value="Theni">Theni</option>
-    <option value="Thoothukudi">Thoothukudi</option>
-    <option value="Tiruchirappalli">Tiruchirappalli</option>
-    <option value="Tirunelveli">Tirunelveli</option>
-    <option value="Tirupattur">Tirupattur</option>
-    <option value="Tiruppur">Tiruppur</option>
-    <option value="Tiruvallur">Tiruvallur</option>
-    <option value="Tiruvannamalai">Tiruvannamalai</option>
-    <option value="Tiruvarur">Tiruvarur</option>
-    <option value="Vellore">Vellore</option>
-    <option value="Viluppuram">Viluppuram</option>
-    <option value="Virudhunagar">Virudhunagar</option>
-</select>
+            <label for="district-id">District ID
+              <input type="text" id="district-id" name="district-id" readonly placeholder="Auto-filled from district" />
             </label>
-            <label>
-              Bus ID
-              <input type="text" id="bus-id" required placeholder="e.g. DPI071" />
+            <label for="bus-id">Bus ID
+              <input type="text" id="bus-id" required readonly placeholder="Auto-generated from district + phone" />
             </label>
             <label>
               Operator Name
@@ -189,14 +176,29 @@
           <div id="admin-message" class="admin-message"></div>
         </form>
       </div>
+      </div>
     </div>
   </section>
+
+  <footer class="footer">
+    <div class="container">
+      <nav class="footer-nav">
+        <a href="../about.html">About Us</a>
+        <a href="../contact.html">Contact Us</a>
+        <a href="../privacy-policy.html">Privacy Policy</a>
+        <a href="../terms.html">Terms &amp; Conditions</a>
+        <a href="../disclaimer.html">Disclaimer</a>
+      </nav>
+      <p>© 2026 Tourzin. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="../js/firebase-config.js"></script>
   <script src="../js/firebase-services.js"></script>
-  <script src="../js/admin.js?v=6"></script>
+  <script src="../js/phone-auth.js?v=1"></script>
+  <script src="../js/admin.js?v=7"></script>
 </body>
 </html>

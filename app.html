@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Buses · Tourzin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=4" />
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <a class="app-header-brand" href="index.html"><span class="brand-emoji">🚌</span> Tourzin</a>
+    <div class="app-header-stats">
+      <span id="total-buses">0</span> buses · <span id="available-count">0</span> available now
+    </div>
+    <div class="app-header-actions">
+      <span id="app-auth-status-text"></span>
+      <a href="index.html">Home</a>
+      <button type="button" id="app-sign-out">Sign Out</button>
+    </div>
+  </header>
+
+  <div id="app-guard-loading" style="padding:80px 24px;text-align:center;color:var(--mid)">Checking your sign-in status…</div>
+
+  <div id="app-gated-content" style="display:none">
+
+  <!-- Search & Filter Section -->
+  <section class="search-section">
+    <div class="container">
+      <div class="search-card">
+        <button id="close-filters" class="btn-reset mobile-close" aria-label="Close filters">✕</button>
+        <div class="search-grid">
+          <div class="field-group">
+            <label for="district-select">📍 Select District</label>
+            <select id="district-select">
+              <option value="">— Choose a District —</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="type-filter">🚌 Bus Type</label>
+            <select id="type-filter">
+              <option value="">All Types</option>
+              <option value="Bus">Bus</option>
+              <option value="TT">TT Van</option>
+              <option value="Coachbus">Coachbus</option>
+              <option value="Urbania">Urbania</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="availability-filter">✅ Availability</label>
+            <select id="availability-filter">
+              <option value="">All</option>
+              <option value="true">Available Now</option>
+              <option value="false">Not Available</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="seats-filter">👥 Min. Seats</label>
+            <input type="number" id="seats-filter" placeholder="e.g. 40" min="1" max="60" />
+          </div>
+        </div>
+        <div class="search-actions">
+          <button class="btn-search" id="search-btn">🔍 Find Buses</button>
+          <button class="btn-reset" id="reset-btn">↺ Reset</button>
+        </div>
+      </div>
+      <div class="search-mini" id="search-mini" style="display:none">
+        <div class="mini-row">
+          <div class="mini-left">
+            <strong id="mini-summary">Filters</strong>
+            <span id="mini-count" style="margin-left:8px;color:#666;font-size:13px"></span>
+          </div>
+          <div class="mini-right">
+            <button id="expand-filters" class="btn-reset">⚙️ Show Filters</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="results-section">
+    <div class="container">
+      <div class="results-header" id="results-header" style="display:none">
+        <h2 id="results-title">Results</h2>
+        <div class="sort-group">
+          <span>Sort by:</span>
+          <button class="sort-btn active" data-sort="rating">⭐ Rating</button>
+          <button class="sort-btn" data-sort="price-asc">₹ Low</button>
+          <button class="sort-btn" data-sort="price-desc">₹ High</button>
+          <button class="sort-btn" data-sort="seats">💺 Seats</button>
+        </div>
+      </div>
+      <div id="cards-grid" class="cards-grid"></div>
+      <div id="empty-state" class="empty-state" style="display:none">
+        <div class="empty-icon">🗺️</div>
+        <h3>No buses found</h3>
+        <p>Try adjusting your filters or selecting a different district.</p>
+      </div>
+      <div id="landing-state" class="landing-state">
+        <div class="landing-icon">🚌</div>
+        <h3>Select a District to Begin</h3>
+        <p>Choose from 20 districts across Tamil Nadu to find tourist buses with full details, contact info, and pricing.</p>
+        <div class="featured-districts">
+          <span class="chip" onclick="quickSelect('chennai')">Chennai</span>
+          <span class="chip" onclick="quickSelect('ooty')">Ooty</span>
+          <span class="chip" onclick="quickSelect('madurai')">Madurai</span>
+          <span class="chip" onclick="quickSelect('kanyakumari')">Kanyakumari</span>
+          <span class="chip" onclick="quickSelect('thanjavur')">Thanjavur</span>
+          <span class="chip" onclick="quickSelect('coimbatore')">Coimbatore</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+    <div class="modal-card" id="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <nav class="footer-nav">
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </nav>
+      <p>© 2026 Tourzin. All rights reserved.</p>
+      <p class="footer-sub">All details are indicative. Confirm directly with operators before booking.</p>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/firebase-services.js"></script>
+  <script src="js/data.js?v=9"></script>
+  <script src="js/app.js?v=12"></script>
+  <script src="js/app-guard.js?v=1"></script>
+</body>
+</html>

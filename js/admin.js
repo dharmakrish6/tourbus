@@ -1,5 +1,14 @@
 const ADMIN_STORAGE_KEY = 'tourbus_added_buses';
 
+// Overrides for districts whose id in buses.json doesn't match a plain slug of the name.
+const DISTRICT_ID_OVERRIDES = {
+  'Tiruchirappalli': 'trichy',
+  'Nilgiris': 'ooty',
+  'Kanchipuram': 'kancheepuram',
+  'Kanniyakumari': 'kanyakumari',
+  'Viluppuram': 'villupuram'
+};
+
 function loadAdminBuses() {
   try {
     return JSON.parse(localStorage.getItem(ADMIN_STORAGE_KEY)) || [];
@@ -11,6 +20,13 @@ function loadAdminBuses() {
 
 function saveAdminBuses(buses) {
   localStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify(buses));
+}
+
+function computeBusId(districtName, phone) {
+  const code = (districtName || '').replace(/[^a-zA-Z]/g, '').slice(0, 3).toUpperCase();
+  const lastThreeDigits = (phone || '').replace(/\D/g, '').slice(-3);
+  if (!code || lastThreeDigits.length < 3) return '';
+  return `${code}${lastThreeDigits}`;
 }
 
 function slugify(text) {
@@ -37,6 +53,30 @@ function initAdmin() {
   const statusText = document.getElementById('admin-status');
 
   if (!form) return;
+
+  const districtNameSelect = document.getElementById('district-name');
+  const districtIdInput = document.getElementById('district-id');
+  const busIdInput = document.getElementById('bus-id');
+  const contactInput = document.getElementById('contact');
+
+  const refreshBusId = () => {
+    if (!busIdInput) return;
+    busIdInput.value = computeBusId(districtNameSelect ? districtNameSelect.value : '', contactInput ? contactInput.value : '');
+  };
+
+  if (districtNameSelect && districtIdInput) {
+    districtNameSelect.addEventListener('change', () => {
+      const districtName = districtNameSelect.value;
+      districtIdInput.value = districtName
+        ? (DISTRICT_ID_OVERRIDES[districtName] || slugify(districtName))
+        : '';
+      refreshBusId();
+    });
+  }
+
+  if (contactInput) {
+    contactInput.addEventListener('input', refreshBusId);
+  }
 
   if (statusText) {
     statusText.textContent = (typeof isFirebaseReady === 'function' && isFirebaseReady())

@@ -593,13 +593,40 @@ function showBusModal(bus) {
           : '<span class="modal-amenity">No amenities listed</span>'}
       </div>
 
+      <label class="modal-consent">
+        <input type="checkbox" id="modal-consent-checkbox" />
+        <span>I have read and agree to the <a href="terms.html" target="_blank" onclick="event.stopPropagation()">Terms &amp; Conditions</a>, <a href="privacy-policy.html" target="_blank" onclick="event.stopPropagation()">Privacy Policy</a> and <a href="disclaimer.html" target="_blank" onclick="event.stopPropagation()">Disclaimer</a>.</span>
+      </label>
+      <p class="consent-warning" id="modal-consent-warning">Please accept the terms above before contacting the operator.</p>
+
       <div class="modal-actions">
-        <a class="modal-btn-primary" href="https://wa.me/${cleanPhone}?text=Hi%2C%20I%27m%20interested%20in%20booking%20${encodeURIComponent(bus.operator)}%20bus%20for%20my%20trip.%20Can%20you%20provide%20more%20details%3F" target="_blank" onclick="event.stopPropagation()">💬 WhatsApp</a>
-        <a class="modal-btn-secondary" href="tel:${cleanPhone}">📞 Call Now</a>
+        <a class="modal-btn-primary disabled-link" href="https://wa.me/${cleanPhone}?text=Hi%2C%20I%27m%20interested%20in%20booking%20${encodeURIComponent(bus.operator)}%20bus%20for%20my%20trip.%20Can%20you%20provide%20more%20details%3F" target="_blank">💬 WhatsApp</a>
+        <a class="modal-btn-secondary disabled-link" href="tel:${cleanPhone}">📞 Call Now</a>
       </div>
     </div>
   `;
-  
+
+  const consentCheckbox = modalContent.querySelector('#modal-consent-checkbox');
+  const consentWarning = modalContent.querySelector('#modal-consent-warning');
+  const gatedActions = modalContent.querySelectorAll('.modal-btn-primary, .modal-btn-secondary');
+
+  if (consentCheckbox) {
+    consentCheckbox.addEventListener('change', () => {
+      gatedActions.forEach(action => action.classList.toggle('disabled-link', !consentCheckbox.checked));
+      if (consentCheckbox.checked && consentWarning) consentWarning.classList.remove('show');
+    });
+  }
+
+  gatedActions.forEach(action => {
+    action.addEventListener('click', event => {
+      event.stopPropagation();
+      if (!consentCheckbox || !consentCheckbox.checked) {
+        event.preventDefault();
+        if (consentWarning) consentWarning.classList.add('show');
+      }
+    });
+  });
+
   if (modalOverlay) {
     modalOverlay.classList.add('open');
   }
@@ -641,23 +668,29 @@ function updateUIState(hasResults) {
 // START APP
 // ============================================
 
-// Start initialization when script loads
-initApp().catch(error => {
-  console.error('❌ Failed to initialize app:', error);
-  console.error('Stack trace:', error.stack);
-  
-  // Display error in UI
-  const landingState = document.getElementById('landing-state');
-  if (landingState) {
-    landingState.innerHTML = `
-      <div class="landing-state">
-        <div class="landing-icon">⚠️</div>
-        <h3>Application Error</h3>
-        <p>Failed to initialize application</p>
-        <p style="font-size: 12px; color: #666; word-break: break-word;">Error: ${error.message}</p>
-        <p style="font-size: 12px; color: #666;">Check browser console (F12) for full details</p>
-        <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; cursor: pointer; background: #E8521A; color: white; border: none; border-radius: 8px;">Retry</button>
-      </div>
-    `;
-  }
-});
+// Started once the user signs in (see js/site-auth.js) instead of immediately on script load,
+// since the bus listings are gated behind login.
+window.startTourBusApp = function startTourBusApp() {
+  if (window.startTourBusApp.started) return;
+  window.startTourBusApp.started = true;
+
+  initApp().catch(error => {
+    console.error('❌ Failed to initialize app:', error);
+    console.error('Stack trace:', error.stack);
+
+    // Display error in UI
+    const landingState = document.getElementById('landing-state');
+    if (landingState) {
+      landingState.innerHTML = `
+        <div class="landing-state">
+          <div class="landing-icon">⚠️</div>
+          <h3>Application Error</h3>
+          <p>Failed to initialize application</p>
+          <p style="font-size: 12px; color: #666; word-break: break-word;">Error: ${error.message}</p>
+          <p style="font-size: 12px; color: #666;">Check browser console (F12) for full details</p>
+          <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; cursor: pointer; background: #E8521A; color: white; border: none; border-radius: 8px;">Retry</button>
+        </div>
+      `;
+    }
+  });
+};
