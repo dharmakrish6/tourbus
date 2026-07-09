@@ -6,7 +6,12 @@
   <title>Sign In · Tourzin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="assets/favicon.ico" />
+
+  <link rel="stylesheet" href="style.css?v=8" />
 </head>
 <body>
 
@@ -15,8 +20,11 @@
   <div class="login-screen-wrap">
     <div class="container">
       <div class="auth-card" id="site-auth-gate-card">
-        <div class="auth-card-icon">🚌</div>
-        <h2 class="auth-card-title">Welcome to Tourzin</h2>
+        <div class="auth-card-brand">
+          <img class="brand-logo-img" src="assets/logo-nav.png" alt="Tourzin" />
+          <span class="brand-wordmark">tour<span class="accent-zin">zin</span></span>
+        </div>
+        <h2 class="auth-card-title">Welcome back</h2>
         <p class="auth-card-subtitle">Sign in to browse verified tour buses across Tamil Nadu.</p>
 
         <div id="site-auth-message" class="auth-alert"></div>
@@ -25,26 +33,6 @@
           <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.5 6 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.7 18.9 12 24 12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.5 6 29.5 4 24 4c-7.7 0-14.4 4.3-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.4 0 10.3-1.8 14-5l-6.5-5.4C29.4 35 26.8 36 24 36c-5.3 0-9.7-3.4-11.3-8l-6.6 5.1C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C41.5 35.9 44 30.5 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
           Continue with Google
         </button>
-
-        <div class="auth-divider"><span>or continue with phone</span></div>
-
-        <div id="site-auth-step-phone" class="auth-step">
-          <div class="auth-input-group">
-            <span class="auth-input-icon" aria-hidden="true">📱</span>
-            <input type="tel" id="site-auth-phone" placeholder="+91 XXXXX XXXXX" autocomplete="tel" />
-          </div>
-          <button class="btn-search auth-submit" type="button" id="site-auth-send-otp">Send Code</button>
-        </div>
-
-        <div id="site-auth-step-otp" class="auth-step" style="display:none">
-          <div class="auth-input-group auth-otp-group">
-            <input type="text" id="site-auth-otp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="······" />
-          </div>
-          <button class="btn-search auth-submit" type="button" id="site-auth-verify-otp">Verify &amp; Continue</button>
-          <button class="auth-link-btn" type="button" id="site-auth-resend">Didn't get a code? Resend</button>
-        </div>
-
-        <div id="site-recaptcha-container"></div>
 
         <p class="auth-fineprint">By continuing, you agree to Tourzin's <a href="terms.html" target="_blank">Terms</a> &amp; <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</p>
       </div>
@@ -56,6 +44,6 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/firebase-services.js"></script>
-  <script src="js/site-auth.js?v=2"></script>
+  <script src="js/site-auth.js?v=3"></script>
 </body>
 </html>

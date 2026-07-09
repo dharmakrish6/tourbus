@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin · TourBusNow</title>
+  <title>Admin · Tourzin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Tamil:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../style.css?v=4" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
+  <link rel="shortcut icon" href="../assets/favicon.ico" />
+
+  <link rel="stylesheet" href="../style.css?v=8" />
 </head>
 <body>
   <header class="hero analytics-hero">
@@ -15,9 +20,12 @@
       <div class="temple-silhouette"></div>
     </div>
     <div class="hero-content">
+      <div class="hero-brand-lockup">
+        <img class="brand-logo-img" src="../assets/logo-nav.png" alt="Tourzin" />
+        <span class="brand-wordmark">tour<span class="accent-zin">zin</span></span>
+      </div>
       <div class="brand-badge">🔧 Admin Panel</div>
       <h1 class="hero-title">
-        <span class="title-tamil">TourBusNow</span>
         <span class="title-main">Add New Bus</span>
       </h1>
       <p class="hero-sub">Submit a new bus entry and update the live UI list automatically.</p>
@@ -29,27 +37,13 @@
     <div class="container">
       <div class="analytics-card auth-gate" id="auth-gate-card">
         <h2>Admin Sign-In</h2>
-        <p>Enter an authorized phone number to receive a one-time verification code.</p>
+        <p>Sign in with an authorized Google account to access the admin panel.</p>
         <div id="auth-message" class="admin-message"></div>
 
-        <div id="auth-step-phone">
-          <div class="field-group">
-            <label for="auth-phone">Phone Number</label>
-            <input type="tel" id="auth-phone" placeholder="+91XXXXXXXXXX" />
-          </div>
-          <button class="btn-search" type="button" id="auth-send-otp">Send Code</button>
-        </div>
-
-        <div id="auth-step-otp" style="display:none">
-          <div class="field-group">
-            <label for="auth-otp">Verification Code</label>
-            <input type="text" id="auth-otp" inputmode="numeric" placeholder="6-digit code" />
-          </div>
-          <button class="btn-search" type="button" id="auth-verify-otp">Verify &amp; Continue</button>
-          <button class="btn-reset" type="button" id="auth-resend">Resend Code</button>
-        </div>
-
-        <div id="recaptcha-container"></div>
+        <button class="btn-google" type="button" id="auth-google">
+          <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.5 6 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.7 18.9 12 24 12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.5 6 29.5 4 24 4c-7.7 0-14.4 4.3-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.4 0 10.3-1.8 14-5l-6.5-5.4C29.4 35 26.8 36 24 36c-5.3 0-9.7-3.4-11.3-8l-6.6 5.1C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.6l6.5 5.4C41.5 35.9 44 30.5 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+          Continue with Google
+        </button>
       </div>
 
       <div id="gated-content" style="display:none">
@@ -198,7 +192,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="../js/firebase-config.js"></script>
   <script src="../js/firebase-services.js"></script>
-  <script src="../js/phone-auth.js?v=1"></script>
+  <script src="../js/admin-auth.js?v=1"></script>
   <script src="../js/admin.js?v=7"></script>
 </body>
 </html>

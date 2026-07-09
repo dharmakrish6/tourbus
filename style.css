@@ -1632,16 +1632,90 @@ body {
 .site-nav-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   color: var(--white);
   font-weight: 800;
-  font-size: 18px;
+  font-size: 26px;
   text-decoration: none;
   letter-spacing: -0.01em;
 }
 
-.site-nav-brand .brand-emoji {
+.site-nav-brand .brand-emoji,
+.app-header-brand .brand-emoji {
   font-size: 22px;
+}
+
+.brand-logo-img {
+  height: 48px;
+  width: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.app-header-brand .brand-logo-img {
+  height: 40px;
+  width: 40px;
+}
+
+.brand-wordmark .accent-zin {
+  color: var(--gold-light);
+}
+
+.auth-card-logo {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 18px;
+  object-fit: contain;
+}
+
+/* Full logo lockup (icon + tourzin.com + tagline), used wherever there's room */
+.brand-wordmark {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* Centered icon + wordmark lockup for standalone heroes (admin/analytics) */
+.hero-brand-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 auto 22px;
+}
+
+.hero-brand-lockup .brand-logo-img {
+  height: 64px;
+  width: 64px;
+}
+
+.hero-brand-lockup .brand-wordmark {
+  color: var(--white);
+  font-size: 40px;
+}
+
+/* Dark-on-light variant, used on the login card (white background) */
+.auth-card-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 auto 18px;
+}
+
+.auth-card-brand .brand-logo-img {
+  height: 52px;
+  width: 52px;
+}
+
+.auth-card-brand .brand-wordmark {
+  color: var(--dark);
+  font-size: 30px;
+}
+
+@media (max-width: 480px) {
+  .hero-brand-lockup .brand-logo-img { height: 48px; width: 48px; }
+  .hero-brand-lockup .brand-wordmark { font-size: 30px; }
 }
 
 .site-nav-links {
@@ -2168,9 +2242,9 @@ body {
 .app-header-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-weight: 800;
-  font-size: 17px;
+  font-size: 24px;
   text-decoration: none;
   color: var(--white);
 }

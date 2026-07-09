@@ -3,14 +3,15 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
       return request.auth != null &&
-        request.auth.token.phone_number in [
-          '+917200195895',
-          '+919742379422'
+        request.auth.token.email_verified == true &&
+        request.auth.token.email in [
+          'dharmakrish6@gmail.com',
+          'kgmtravelagency@gmail.com'
         ];
     }
 
-    // Signed in with a real account (Google or phone OTP) -- excludes the
-    // anonymous sessions used behind the scenes for click tracking.
+    // Signed in with a real Google account -- excludes the anonymous
+    // sessions used behind the scenes for click tracking.
     function isSignedInUser() {
       return request.auth != null &&
         request.auth.token.firebase.sign_in_provider != 'anonymous';
