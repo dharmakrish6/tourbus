@@ -181,7 +181,7 @@ body {
 }
 .search-mini .mini-left { display:flex; align-items:center; gap:8px; }
 .search-mini .mini-right { display:flex; align-items:center; }
-.search-section.collapsed { padding: 8px 0; }
+.search-section.collapsed { padding: 8px 0; height: auto; position: static; }
 .search-section.collapsed .search-card { display: none !important; }
 .search-section.collapsed .search-mini { display: block; }
 
@@ -214,7 +214,7 @@ body {
 
 .search-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 16px;
   align-items: end;
 }
@@ -1027,6 +1027,7 @@ body {
     flex-direction: column;
   }
 
+  .btn-details,
   .btn-call,
   .modal-btn-secondary {
     width: 100%;

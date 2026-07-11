@@ -7,7 +7,7 @@ let currentSort = 'rating';
 const LOCAL_ADDED_BUSES_KEY = 'tourbus_added_buses';
 
 // DOM elements (lazy loaded in initApp)
-let districtSelect, typeFilter, availabilityFilter, seatsFilter;
+let districtSelect, typeFilter;
 let searchBtn, resetBtn, cardsGrid, emptyState, landingState;
 let resultsHeader, sortBtns, modalOverlay, modalContent;
 let searchSection, searchMini, expandFiltersBtn;
@@ -78,7 +78,7 @@ async function initApp() {
 
   // If on mobile and user hasn't applied any filter yet, expand filters to occupy 75% viewport
   const mobileBreakpoint = 580;
-  const hasAnyFilter = districtSelect.value || typeFilter.value || availabilityFilter.value || seatsFilter.value;
+  const hasAnyFilter = districtSelect.value || typeFilter.value;
   if (window.innerWidth <= mobileBreakpoint && !hasAnyFilter && searchSection) {
     expandFiltersMobile();
   }
@@ -129,8 +129,6 @@ async function initApp() {
 function getDOMElements() {
   districtSelect = document.getElementById('district-select');
   typeFilter = document.getElementById('type-filter');
-  availabilityFilter = document.getElementById('availability-filter');
-  seatsFilter = document.getElementById('seats-filter');
   searchBtn = document.getElementById('search-btn');
   resetBtn = document.getElementById('reset-btn');
   cardsGrid = document.getElementById('cards-grid');
@@ -317,8 +315,6 @@ function performSearch() {
   
   const districtId = districtSelect.value;
   const busType = typeFilter.value;
-  const availability = availabilityFilter.value;
-  const minSeats = seatsFilter.value ? parseInt(seatsFilter.value) : 0;
 
   let results = getAllBuses();
 
@@ -331,15 +327,6 @@ function performSearch() {
     results = results.filter(bus => bus.type === busType);
   }
 
-  if (availability !== '') {
-    const isAvailable = availability === 'true';
-    results = results.filter(bus => bus.available === isAvailable);
-  }
-
-  if (minSeats > 0) {
-    results = results.filter(bus => bus.seats >= minSeats);
-  }
-
   currentResults = sortResults(results);
   displayResults(currentResults);
   updateUIState(results.length > 0);
@@ -347,6 +334,7 @@ function performSearch() {
   // On small screens, collapse the filter card to a compact bar so results are visible
   const mobileBreakpoint = 580;
   if (window.innerWidth <= mobileBreakpoint && searchSection) {
+    searchSection.classList.remove('mobile-expanded');
     searchSection.classList.add('collapsed');
     if (searchMini) {
       const count = currentResults ? currentResults.length : 0;
@@ -391,8 +379,6 @@ function sortResults(buses) {
 function resetFilters() {
   districtSelect.value = '';
   typeFilter.value = '';
-  availabilityFilter.value = '';
-  seatsFilter.value = '';
   currentResults = [];
   cardsGrid.innerHTML = '';
   emptyState.style.display = 'none';
@@ -481,10 +467,6 @@ function createBusCard(bus) {
       <div class="info-row">
         <span class="info-icon">📍</span>
         <span class="info-text">${bus.location}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-icon">☎️</span>
-        <span class="info-text">${bus.contact}</span>
       </div>
       <div class="card-divider"></div>
       <div class="card-stats-row">
