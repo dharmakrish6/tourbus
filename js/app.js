@@ -123,6 +123,9 @@ async function initApp() {
     lastScrollY = y;
   }, { passive: true });
   
+  // If the visitor arrived here right after signing in to view a bus, reopen it.
+  openPendingBusIfReady();
+
   console.log('✓ App initialized successfully!');
 }
 
@@ -490,24 +493,60 @@ function createBusCard(bus) {
   `;
 
   card.addEventListener('click', () => {
-    trackCardClick(bus.id);
-    showBusModal(bus);
+    openBusDetails(bus);
   });
   card.addEventListener('keydown', event => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      trackCardClick(bus.id);
-      showBusModal(bus);
+      openBusDetails(bus);
     }
   });
   card.querySelector('.btn-details').addEventListener('click', event => {
     event.stopPropagation();
-    trackCardClick(bus.id);
-    showBusModal(bus);
+    openBusDetails(bus);
   });
 
   return card;
 }
+
+// Viewing full bus details requires a signed-in account. Anyone can browse the
+// cards, but opening the details modal sends anonymous visitors to sign in.
+function isAppUserSignedIn() {
+  if (window.currentAppUser) return true;
+  const user = window.firebaseAuth && window.firebaseAuth.currentUser;
+  return !!(user && !user.isAnonymous);
+}
+
+const PENDING_BUS_KEY = 'tourbus_pending_bus';
+
+function openBusDetails(bus) {
+  if (!isAppUserSignedIn()) {
+    // Remember which bus was requested so we can reopen it after sign-in.
+    try { sessionStorage.setItem(PENDING_BUS_KEY, bus.id); } catch (e) {}
+    window.location.href = 'login.html';
+    return;
+  }
+  trackCardClick(bus.id);
+  showBusModal(bus);
+}
+
+// After returning from login, reopen the details modal for the bus the visitor
+// originally clicked — once both the bus data and auth state are ready.
+function openPendingBusIfReady() {
+  if (!isAppUserSignedIn()) return;
+
+  let pendingId = null;
+  try { pendingId = sessionStorage.getItem(PENDING_BUS_KEY); } catch (e) {}
+  if (!pendingId) return;
+
+  const bus = getAllBuses().find(b => b.id === pendingId);
+  if (!bus) return; // data not loaded yet, or bus no longer exists
+
+  try { sessionStorage.removeItem(PENDING_BUS_KEY); } catch (e) {}
+  trackCardClick(bus.id);
+  showBusModal(bus);
+}
+window.openPendingBusIfReady = openPendingBusIfReady;
 
 // ============================================
 // MODAL

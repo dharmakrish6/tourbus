@@ -27,11 +27,12 @@
     <div class="app-header-actions">
       <span id="app-auth-status-text"></span>
       <a href="index.html">Home</a>
-      <button type="button" id="app-sign-out">Sign Out</button>
+      <a href="login.html" id="app-sign-in" style="display:none">Sign In</a>
+      <button type="button" id="app-sign-out" style="display:none">Sign Out</button>
     </div>
   </header>
 
-  <div id="app-guard-loading" style="padding:80px 24px;text-align:center;color:var(--mid)">Checking your sign-in status…</div>
+  <div id="app-guard-loading" style="padding:80px 24px;text-align:center;color:var(--mid)">Loading buses…</div>
 
   <div id="app-gated-content" style="display:none">
 
@@ -141,9 +142,9 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="js/firebase-config.js"></script>
-  <script src="js/firebase-services.js"></script>
+  <script src="js/firebase-services.js?v=2"></script>
   <script src="js/data.js?v=9"></script>
-  <script src="js/app.js?v=12"></script>
-  <script src="js/app-guard.js?v=1"></script>
+  <script src="js/app.js?v=14"></script>
+  <script src="js/app-guard.js?v=3"></script>
 </body>
 </html>

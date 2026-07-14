@@ -23,6 +23,21 @@ async function ensureFirebaseAuth() {
     return window.firebaseAuth.currentUser;
   }
 
+  // Wait for Firebase to restore any persisted session before deciding whether
+  // to fall back to anonymous auth. On a fresh page load currentUser is null
+  // until restoration completes; signing in anonymously too early would clobber
+  // a real (e.g. Google) sign-in and make the app think the user is logged out.
+  const restoredUser = await new Promise(resolve => {
+    const unsubscribe = window.firebaseAuth.onAuthStateChanged(user => {
+      unsubscribe();
+      resolve(user);
+    });
+  });
+
+  if (restoredUser) {
+    return restoredUser;
+  }
+
   try {
     const result = await window.firebaseAuth.signInAnonymously();
     return result.user;
