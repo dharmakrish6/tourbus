@@ -1058,6 +1058,16 @@ body {
   margin-top: 4px;
 }
 
+.footer-sub a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.footer-sub a:hover {
+  color: var(--white);
+}
+
 .footer-link {
   margin: 10px 0 0;
 }
