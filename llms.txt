@@ -8,11 +8,11 @@ Tourzin's slogan is "Travel Together, Memories Forever." The platform covers 25+
 
 - **Tourzin Managed Booking**: for selected partners, the Tourzin team finds the right vehicle, checks availability, coordinates with the operator, and confirms the booking on the customer's behalf.
 - **Direct Listing**: customers browse the marketplace, compare vehicles and operator details, and contact the operator directly (via WhatsApp or phone) to finalize pricing and trip details themselves.
-- Sign-in is via Google account, required before browsing the live bus listings (to reduce spam and keep contact details limited to genuine travelers).
+- Browsing the live bus listings is free and open to everyone — no sign-in required. A quick Google sign-in is only needed to view a specific operator's full contact details (to reduce spam and keep contact details limited to genuine travelers).
 
 ## Key pages
 
-- [Home](https://tourzin.com/): overview, how it works, and sign-in entry point.
+- [Home](https://tourzin.com/): overview, how it works, and entry point to browse the free bus listings.
 - [About](https://tourzin.com/about.html): company mission, vision, booking models, and values.
 - [Contact](https://tourzin.com/contact.html): support email, booking email, phone, and registered address.
 - [Privacy Policy](https://tourzin.com/privacy-policy.html): what personal data Tourzin collects and how it's used.
