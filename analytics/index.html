@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
   <link rel="shortcut icon" href="../assets/favicon.ico" />
 
-  <link rel="stylesheet" href="../style.css?v=8" />
+  <link rel="stylesheet" href="../style.css?v=10" />
 </head>
 <body>
   <header class="hero analytics-hero">
@@ -31,8 +31,11 @@
       <h1 class="hero-title">
         <span class="title-main">Analytics</span>
       </h1>
-      <p class="hero-sub">Review how many times users clicked each bus card across the discovery experience.</p>
-      <a class="btn-search" href="../">← Back to Home</a>
+      <p class="hero-sub">Review monthly visits for each bus service over the last 3 months.</p>
+      <div class="hero-actions">
+        <a class="btn-search" href="../">← Back to Home</a>
+        <a class="btn-reset" href="../admin/">➕ Add Bus</a>
+      </div>
     </div>
   </header>
 
@@ -57,15 +60,16 @@
         <div class="analytics-card">
           <div class="analytics-header">
             <div>
-              <h2>Card Click Summary</h2>
-              <p class="analytics-summary">Counts are stored locally in your browser and updated whenever a user opens a bus card.</p>
+              <h2>Monthly Visits — Last 3 Months</h2>
+              <p class="analytics-summary">Visit counts per bus service, broken down by month. Updated whenever a user opens a bus card.</p>
             </div>
             <button id="reset-analytics" class="btn-reset">Reset Counts</button>
           </div>
 
           <div id="analytics-summary" class="analytics-summary"></div>
+          <div id="analytics-chart-wrapper" class="analytics-chart-wrapper"></div>
           <div id="analytics-table-wrapper" class="analytics-table-wrapper"></div>
-          <p class="footer-sub">Analytics are saved locally in your browser. Refresh to see updated totals after clicking cards.</p>
+          <p class="footer-sub">Monthly views are tracked in Firestore (with a local-storage fallback). Refresh to see updated totals after new activity.</p>
         </div>
       </div>
     </div>
@@ -88,8 +92,8 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="../js/firebase-config.js"></script>
-  <script src="../js/firebase-services.js"></script>
+  <script src="../js/firebase-services.js?v=2"></script>
   <script src="../js/admin-auth.js?v=1"></script>
-  <script src="../js/analytics.js?v=7"></script>
+  <script src="../js/analytics.js?v=8"></script>
 </body>
 </html>

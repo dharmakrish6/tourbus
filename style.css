@@ -1516,6 +1516,112 @@ body {
   background: var(--light);
 }
 
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hero-actions a.btn-search,
+.hero-actions a.btn-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.hero-actions a.btn-reset {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.hero-actions a.btn-reset:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---- Monthly visits chart ---- */
+.analytics-chart-wrapper {
+  margin: 24px 0 8px;
+}
+
+.month-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 28px;
+  height: 220px;
+  padding: 16px 8px 0;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.month-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  flex: 1;
+  max-width: 120px;
+}
+
+.month-bar-track {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.month-bar-fill {
+  position: relative;
+  width: 60%;
+  max-width: 64px;
+  min-height: 2px;
+  background: var(--brand-gradient);
+  border-radius: 8px 8px 0 0;
+  transition: height 0.5s ease;
+}
+
+.month-bar-value {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+.month-bar-label {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mid);
+  text-align: center;
+}
+
+/* ---- Per-row trend sparkline ---- */
+.spark {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 28px;
+  width: 42px;
+}
+
+.spark-bar {
+  flex: 1;
+  min-height: 2px;
+  background: var(--saffron);
+  border-radius: 2px 2px 0 0;
+}
+
 .admin-form {
   display: flex;
   flex-direction: column;

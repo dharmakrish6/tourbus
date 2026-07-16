@@ -116,15 +116,24 @@ async function saveBusToFirestore(bus) {
   return normalizedBus;
 }
 
+// Returns the current month as a "YYYY-MM" key, e.g. "2026-07".
+function currentMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
 async function incrementBusClickCount(busId) {
   if (!isFirebaseReady()) {
     return;
   }
 
   await ensureFirebaseAuth();
+  const monthKey = currentMonthKey();
   const analyticsRef = firestore.collection('analytics').doc(busId);
   await analyticsRef.set({
     clicks: firebase.firestore.FieldValue.increment(1),
+    // Per-month breakdown so we can chart monthly visits over time.
+    monthly: { [monthKey]: firebase.firestore.FieldValue.increment(1) },
     updatedAt: firebase.firestore.Timestamp.now()
   }, { merge: true });
 }
@@ -144,6 +153,28 @@ async function fetchAnalyticsCountsFromFirestore() {
   });
 
   return counts;
+}
+
+// Like fetchAnalyticsCountsFromFirestore, but also returns the per-month
+// breakdown for each bus: { [busId]: { clicks, monthly: { "YYYY-MM": n } } }.
+async function fetchAnalyticsDetailFromFirestore() {
+  if (!isFirebaseReady()) {
+    throw new Error('Firebase is not configured or loaded.');
+  }
+
+  await ensureFirebaseAuth();
+  const snapshot = await firestore.collection('analytics').get();
+  const detail = {};
+
+  snapshot.docs.forEach(doc => {
+    const data = doc.data() || {};
+    detail[doc.id] = {
+      clicks: typeof data.clicks === 'number' ? data.clicks : 0,
+      monthly: (data.monthly && typeof data.monthly === 'object') ? data.monthly : {}
+    };
+  });
+
+  return detail;
 }
 
 async function clearAnalyticsFirestore() {

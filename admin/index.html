@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
   <link rel="shortcut icon" href="../assets/favicon.ico" />
 
-  <link rel="stylesheet" href="../style.css?v=8" />
+  <link rel="stylesheet" href="../style.css?v=10" />
 </head>
 <body>
   <header class="hero analytics-hero">
@@ -32,7 +32,10 @@
         <span class="title-main">Add New Bus</span>
       </h1>
       <p class="hero-sub">Submit a new bus entry and update the live UI list automatically.</p>
-      <a class="btn-search" href="../">← Back to Home</a>
+      <div class="hero-actions">
+        <a class="btn-search" href="../">← Back to Home</a>
+        <a class="btn-reset" href="../analytics/">📊 View Analytics</a>
+      </div>
     </div>
   </header>
 
@@ -194,7 +197,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="../js/firebase-config.js"></script>
-  <script src="../js/firebase-services.js"></script>
+  <script src="../js/firebase-services.js?v=2"></script>
   <script src="../js/admin-auth.js?v=1"></script>
   <script src="../js/admin.js?v=7"></script>
 </body>

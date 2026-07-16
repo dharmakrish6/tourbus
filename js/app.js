@@ -148,6 +148,7 @@ function getDOMElements() {
 }
 
 const ANALYTICS_STORAGE_KEY = 'tourbus_click_analytics';
+const ANALYTICS_MONTHLY_STORAGE_KEY = 'tourbus_click_analytics_monthly';
 
 function loadAnalyticsCounts() {
   try {
@@ -162,10 +163,36 @@ function saveAnalyticsCounts(counts) {
   localStorage.setItem(ANALYTICS_STORAGE_KEY, JSON.stringify(counts));
 }
 
+function loadAnalyticsMonthly() {
+  try {
+    return JSON.parse(localStorage.getItem(ANALYTICS_MONTHLY_STORAGE_KEY)) || {};
+  } catch (error) {
+    console.warn('Unable to parse monthly analytics data:', error);
+    return {};
+  }
+}
+
+function saveAnalyticsMonthly(monthly) {
+  localStorage.setItem(ANALYTICS_MONTHLY_STORAGE_KEY, JSON.stringify(monthly));
+}
+
+function analyticsMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
 function trackCardClick(busId) {
   const counts = loadAnalyticsCounts();
   counts[busId] = (counts[busId] || 0) + 1;
   saveAnalyticsCounts(counts);
+
+  // Also record the click against the current month for the monthly chart.
+  const monthly = loadAnalyticsMonthly();
+  const monthKey = analyticsMonthKey();
+  monthly[busId] = monthly[busId] || {};
+  monthly[busId][monthKey] = (monthly[busId][monthKey] || 0) + 1;
+  saveAnalyticsMonthly(monthly);
+
   console.log(`Analytics: ${busId} clicked ${counts[busId]} time(s)`);
 
   if (typeof isFirebaseReady === 'function' && isFirebaseReady()) {
