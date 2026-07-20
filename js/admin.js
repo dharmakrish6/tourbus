@@ -177,4 +177,40 @@ function initAdmin() {
   }
 }
 
+// Live bus count shown in the footer -- visible even before admin sign-in,
+// pulled the same way the public site does (Firestore first, buses.json fallback).
+async function initLiveBusCount() {
+  const el = document.getElementById('live-bus-count');
+  if (!el) return;
+
+  try {
+    let buses = [];
+
+    if (typeof isFirebaseReady === 'function' && isFirebaseReady()) {
+      try {
+        buses = await fetchAllFirebaseBuses();
+      } catch (firebaseError) {
+        console.warn('Live bus count: Firestore fetch failed:', firebaseError);
+      }
+    }
+
+    if (buses.length === 0) {
+      const response = await fetch('../buses.json');
+      const data = await response.json();
+      (data.districts || []).forEach(district => {
+        if (Array.isArray(district.buses)) {
+          buses.push(...district.buses);
+        }
+      });
+    }
+
+    const count = buses.length;
+    el.textContent = `🚌 ${count.toLocaleString('en-IN')} bus${count === 1 ? '' : 'es'} currently live on tourzin.com`;
+  } catch (error) {
+    console.error('Failed to load live bus count:', error);
+    el.textContent = 'Unable to load live site stats.';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', initAdmin);
+document.addEventListener('DOMContentLoaded', initLiveBusCount);
