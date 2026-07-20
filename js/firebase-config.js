@@ -33,9 +33,15 @@ function initFirebaseApp() {
     }
 
     window.firebaseApp = firebase.app();
-    window.firestore = firebase.firestore();
-    window.fbFieldValue = firebase.firestore.FieldValue;
-    window.fbTimestamp = firebase.firestore.Timestamp;
+
+    // Firestore is optional: lightweight pages (e.g. the public marketing
+    // pages) load only firebase-auth to reflect sign-in state in the nav,
+    // without pulling in the heavier Firestore SDK.
+    if (firebase.firestore) {
+      window.firestore = firebase.firestore();
+      window.fbFieldValue = firebase.firestore.FieldValue;
+      window.fbTimestamp = firebase.firestore.Timestamp;
+    }
 
     if (firebase.auth) {
       window.firebaseAuth = firebase.auth();
