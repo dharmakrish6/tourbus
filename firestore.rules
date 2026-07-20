@@ -10,15 +10,11 @@ service cloud.firestore {
         ];
     }
 
-    // Signed in with a real Google account -- excludes the anonymous
-    // sessions used behind the scenes for click tracking.
-    function isSignedInUser() {
-      return request.auth != null &&
-        request.auth.token.firebase.sign_in_provider != 'anonymous';
-    }
-
     match /buses/{document=**} {
-      allow read: if isSignedInUser();
+      // Bus listings are public content -- anyone can browse them without
+      // signing in (same as the static buses.json fallback), so reads must
+      // not require a signed-in session. Only admins can write.
+      allow read: if true;
       allow write: if isAdmin();
     }
 

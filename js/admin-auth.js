@@ -35,6 +35,9 @@ function initAdminAuthGate() {
     if (typeof window.initAnalytics === 'function') {
       window.initAnalytics();
     }
+    if (typeof window.onAdminSignedIn === 'function') {
+      window.onAdminSignedIn();
+    }
   }
 
   if (typeof isFirebaseReady !== 'function' || !isFirebaseReady() || !window.firebaseAuth) {

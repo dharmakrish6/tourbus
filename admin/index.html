@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png" />
   <link rel="shortcut icon" href="../assets/favicon.ico" />
 
-  <link rel="stylesheet" href="../style.css?v=11" />
+  <link rel="stylesheet" href="../style.css?v=12" />
 </head>
 <body>
   <header class="hero analytics-hero">
@@ -57,9 +57,42 @@
           <span id="auth-status-text"></span>
           <button class="btn-reset" type="button" id="auth-sign-out">Sign Out</button>
         </div>
-      <div class="analytics-card">
-        <h2>Add New Bus</h2>
-        <p class="analytics-summary">Fill in the details below. New entries are saved in browser storage and merged into the home bus list.</p>
+
+        <div class="analytics-card">
+          <div class="analytics-header">
+            <div>
+              <h2>Manage Buses</h2>
+              <p class="analytics-summary">All buses from the live catalog, with any edits or deletions made here. Deleting a bus hides it from the site but keeps it recoverable.</p>
+            </div>
+            <button id="bus-manager-refresh" class="btn-reset" type="button">↺ Refresh</button>
+          </div>
+
+          <div class="bus-filter-bar">
+            <input type="search" id="bus-filter-search" placeholder="Search operator or bus ID…" />
+            <select id="bus-filter-district">
+              <option value="">All Districts</option>
+            </select>
+            <select id="bus-filter-type">
+              <option value="">All Types</option>
+              <option value="Bus">Bus</option>
+              <option value="TT">TT Van</option>
+              <option value="Coachbus">Coachbus</option>
+              <option value="Urbania">Urbania</option>
+            </select>
+            <select id="bus-filter-status">
+              <option value="active">Active only</option>
+              <option value="all">All (incl. deleted)</option>
+              <option value="deleted">Deleted only</option>
+            </select>
+          </div>
+
+          <div id="bus-manager-summary" class="analytics-summary"></div>
+          <div id="bus-manager-table-wrapper" class="analytics-table-wrapper"></div>
+        </div>
+
+      <div class="analytics-card" id="admin-form-card">
+        <h2 id="admin-form-title">Add New Bus</h2>
+        <p class="analytics-summary" id="admin-form-desc">Fill in the details below. New entries are saved to Firestore and merged into the home bus list.</p>
         <form id="admin-form" class="admin-form">
           <div class="admin-grid">
             <label for="district-name">Select District
@@ -168,8 +201,10 @@
               <input type="checkbox" id="paid" checked /> Paid
             </label>
           </div>
+          <input type="hidden" id="edit-bus-id" value="" />
           <div class="form-actions">
-            <button class="btn-search" type="submit">Save Bus</button>
+            <button class="btn-search" type="submit" id="admin-form-submit">Save Bus</button>
+            <button class="btn-reset" type="button" id="cancel-edit" style="display:none">Cancel Edit</button>
             <button class="btn-reset" type="button" id="clear-additions">Clear Additions</button>
           </div>
           <div id="admin-status" class="admin-status">Initializing Firebase status...</div>
@@ -198,8 +233,9 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
   <script src="../js/firebase-config.js"></script>
-  <script src="../js/firebase-services.js?v=2"></script>
-  <script src="../js/admin-auth.js?v=1"></script>
-  <script src="../js/admin.js?v=8"></script>
+  <script src="../js/firebase-services.js?v=4"></script>
+  <script src="../js/data.js?v=10"></script>
+  <script src="../js/admin-auth.js?v=2"></script>
+  <script src="../js/admin.js?v=9"></script>
 </body>
 </html>

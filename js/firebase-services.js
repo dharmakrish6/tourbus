@@ -47,41 +47,6 @@ async function ensureFirebaseAuth() {
   }
 }
 
-function groupBusesByDistrict(buses) {
-  const districts = {};
-
-  buses.forEach(rawBus => {
-    const bus = {
-      ...rawBus,
-      district: rawBus.district || rawBus.districtName || 'Custom',
-      districtId: rawBus.districtId || slugify(rawBus.district || rawBus.districtName || 'custom')
-    };
-
-    if (!districts[bus.districtId]) {
-      districts[bus.districtId] = {
-        id: bus.districtId,
-        name: bus.district,
-        buses: []
-      };
-    }
-
-    districts[bus.districtId].buses.push(bus);
-  });
-
-  return Object.values(districts);
-}
-
-async function loadFirestoreBusData() {
-  if (!isFirebaseReady()) {
-    throw new Error('Firebase is not configured or loaded.');
-  }
-
-  await ensureFirebaseAuth();
-  const snapshot = await firestore.collection('buses').get();
-  const buses = snapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() || {}) }));
-  return groupBusesByDistrict(buses);
-}
-
 async function fetchAllFirebaseBuses() {
   if (!isFirebaseReady()) {
     throw new Error('Firebase is not configured or loaded.');
@@ -114,6 +79,16 @@ async function saveBusToFirestore(bus) {
   await ensureFirebaseAuth();
   await firestore.collection('buses').doc(id).set(normalizedBus, { merge: true });
   return normalizedBus;
+}
+
+// Soft delete: flags a bus as deleted without removing its Firestore doc, so
+// it can be restored later and admin tooling can still see its history.
+async function softDeleteBusInFirestore(bus) {
+  return saveBusToFirestore({ ...bus, deleted: true });
+}
+
+async function restoreBusInFirestore(bus) {
+  return saveBusToFirestore({ ...bus, deleted: false });
 }
 
 // Returns the current month as a "YYYY-MM" key, e.g. "2026-07".
