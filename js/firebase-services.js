@@ -113,6 +113,41 @@ async function incrementBusClickCount(busId) {
   }, { merge: true });
 }
 
+// Site-wide visit counter, stored as a single doc in the same `analytics`
+// collection as per-bus click counts (an underscore-prefixed id so it can
+// never collide with a real bus id). Same read/write rules apply: any
+// visitor (including anonymous) can increment it, only admins can read it.
+const SITE_VISITS_DOC_ID = '_site_visits';
+
+async function incrementSiteVisit() {
+  if (!isFirebaseReady()) {
+    return;
+  }
+
+  await ensureFirebaseAuth();
+  const monthKey = currentMonthKey();
+  const visitsRef = firestore.collection('analytics').doc(SITE_VISITS_DOC_ID);
+  await visitsRef.set({
+    total: firebase.firestore.FieldValue.increment(1),
+    monthly: { [monthKey]: firebase.firestore.FieldValue.increment(1) },
+    updatedAt: firebase.firestore.Timestamp.now()
+  }, { merge: true });
+}
+
+async function fetchSiteVisitStats() {
+  if (!isFirebaseReady()) {
+    throw new Error('Firebase is not configured or loaded.');
+  }
+
+  await ensureFirebaseAuth();
+  const doc = await firestore.collection('analytics').doc(SITE_VISITS_DOC_ID).get();
+  const data = doc.data() || {};
+  return {
+    total: typeof data.total === 'number' ? data.total : 0,
+    monthly: (data.monthly && typeof data.monthly === 'object') ? data.monthly : {}
+  };
+}
+
 async function fetchAnalyticsCountsFromFirestore() {
   if (!isFirebaseReady()) {
     throw new Error('Firebase is not configured or loaded.');

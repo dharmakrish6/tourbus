@@ -485,45 +485,32 @@ function initBusManager() {
   loadBusManagerData();
 }
 
-// Runs once the admin has actually signed in (see js/admin-auth.js) -- the
-// Firestore /buses read rule requires a real, non-anonymous session, so
-// pre-sign-in fetches (e.g. the footer count below) may have been denied
-// and need a refresh now that a real session exists.
+// Runs once the admin has actually signed in (see js/admin-auth.js). Unlike
+// the bus list, the visit counter reads from /analytics, which requires the
+// stricter isAdmin() rule (not just any signed-in user) -- so it can only
+// be fetched after a real, allow-listed sign-in, not on initial page load.
 window.onAdminSignedIn = function onAdminSignedIn() {
   initBusManager();
-  initLiveBusCount();
+  initLiveVisitCount();
 };
 
 // ============================================
-// LIVE BUS COUNT (footer)
+// LIVE VISIT COUNT (footer)
 // ============================================
 
-// Live bus count shown in the footer -- visible even before admin sign-in,
-// merged the same way the public site does (buses.json base + Firestore overrides).
-async function initLiveBusCount() {
-  const el = document.getElementById('live-bus-count');
+// Total site visits tracked via js/visit-tracker.js (one increment per
+// browser session, recorded from index.html/app.html). Admin-only read.
+async function initLiveVisitCount() {
+  const el = document.getElementById('live-visit-count');
   if (!el) return;
 
   try {
-    const baseDistricts = await fetchBusesJsonBaseForAdmin();
-    let overrides = [];
-
-    if (typeof isFirebaseReady === 'function' && isFirebaseReady()) {
-      try {
-        overrides = await fetchAllFirebaseBuses();
-      } catch (firebaseError) {
-        console.warn('Live bus count: Firestore fetch failed:', firebaseError);
-      }
-    }
-
-    const merged = window.mergeBusOverrides(baseDistricts, overrides);
-    const count = merged.reduce((sum, district) => sum + (district.buses ? district.buses.length : 0), 0);
-    el.textContent = `🚌 ${count.toLocaleString('en-IN')} bus${count === 1 ? '' : 'es'} currently live on tourzin.com`;
+    const stats = await fetchSiteVisitStats();
+    el.textContent = `👀 ${stats.total.toLocaleString('en-IN')} visit${stats.total === 1 ? '' : 's'} tracked on tourzin.com`;
   } catch (error) {
-    console.error('Failed to load live bus count:', error);
-    el.textContent = 'Unable to load live site stats.';
+    console.error('Failed to load live visit count:', error);
+    el.textContent = 'Unable to load live visit stats.';
   }
 }
 
 document.addEventListener('DOMContentLoaded', initAdmin);
-document.addEventListener('DOMContentLoaded', initLiveBusCount);
