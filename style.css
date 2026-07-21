@@ -1855,15 +1855,15 @@ body {
 }
 
 .brand-logo-img {
-  height: 48px;
-  width: 48px;
+  height: 56px;
+  width: 56px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .app-header-brand .brand-logo-img {
-  height: 40px;
-  width: 40px;
+  height: 46px;
+  width: 46px;
 }
 
 .brand-wordmark .accent-zin {
@@ -1894,8 +1894,8 @@ body {
 }
 
 .hero-brand-lockup .brand-logo-img {
-  height: 64px;
-  width: 64px;
+  height: 72px;
+  width: 72px;
 }
 
 .hero-brand-lockup .brand-wordmark {
@@ -1923,7 +1923,7 @@ body {
 }
 
 @media (max-width: 480px) {
-  .hero-brand-lockup .brand-logo-img { height: 48px; width: 48px; }
+  .hero-brand-lockup .brand-logo-img { height: 54px; width: 54px; }
   .hero-brand-lockup .brand-wordmark { font-size: 30px; }
 }
 
